@@ -1,0 +1,273 @@
+/* Components: cards, timeline, forms, modal, badges */
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease, background .35s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, .45);
+}
+
+.card--project img.thumb {
+    position: relative;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    /* Increased height by ~5%: 16/9 -> 16/9.45 (smaller ratio value => taller) */
+    aspect-ratio: 16 / 9.45;
+    object-fit: cover;
+    width: 100%;
+    /* increased width by 2% */
+    margin: 0 0 0.9rem 0;
+    /* no horizontal overflow needed */
+    transition: transform .85s cubic-bezier(.25, .8, .25, 1), filter .85s ease, box-shadow .6s ease;
+    will-change: transform, filter;
+}
+
+/* Enhanced project card styling */
+.card--project {
+    --project-accent: var(--accent);
+    --project-accent-2: var(--accent-2);
+    position: relative;
+    overflow: hidden;
+    padding: 0.95rem 0.95rem 1.15rem;
+    background: linear-gradient(155deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 55%);
+    border: 1px solid var(--border);
+    backdrop-filter: saturate(170%) blur(3px);
+    transition: transform .55s ease, box-shadow .6s ease, border-color .5s ease, background .6s ease;
+}
+
+.card--project::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    /* gradient border thickness */
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--project-accent) 0%, var(--project-accent-2) 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity .65s ease;
+    pointer-events: none;
+}
+
+/* Soft inner glow / sheen layer */
+.card--project::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.18), transparent 55%),
+        radial-gradient(circle at 80% 75%, rgba(255, 255, 255, 0.06), transparent 65%),
+        linear-gradient(140deg, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
+    opacity: 0;
+    mix-blend-mode: overlay;
+    transition: opacity .9s ease;
+    pointer-events: none;
+}
+
+.card--project:hover::before {
+    opacity: 1;
+}
+
+.card--project:hover::after {
+    opacity: 1;
+}
+
+.card--project h3 {
+    position: relative;
+    z-index: 2;
+}
+
+.card--project .tags {
+    position: relative;
+    z-index: 2;
+}
+
+/* Project image hover animation removed per request */
+
+.card--project:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 18px 46px -10px rgba(0, 0, 0, .6), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Focus-visible enhancement for accessibility */
+.card--project:focus-within::before,
+.card--project:focus-within::after {
+    opacity: 1;
+}
+
+.card--project:focus-within {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 3px;
+}
+
+.badge {
+    background: color-mix(in srgb, var(--accent-2) 25%, transparent);
+    color: color-mix(in srgb, var(--accent-2) 70%, #ffffff);
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    margin-right: 0.35rem;
+    font-size: 0.85rem;
+    transition: background .3s, transform .3s;
+}
+
+.badge:hover {
+    background: color-mix(in srgb, var(--accent-2) 40%, transparent);
+    transform: translateY(-2px);
+}
+
+.timeline {
+    list-style: none;
+    padding-left: 0;
+}
+
+.timeline li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin: 0.75rem 0;
+}
+
+.timeline li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--accent);
+}
+
+.form-row {
+    margin-bottom: 1rem;
+    display: grid;
+    gap: 0.35rem;
+}
+
+input,
+textarea {
+    background: var(--bg-soft);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem;
+}
+
+input:focus,
+textarea:focus {
+    outline: 2px solid var(--accent-2);
+    border-color: transparent;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+}
+
+.modal[aria-hidden="false"] {
+    display: grid;
+    place-items: center;
+}
+
+.modal__dialog {
+    background: #000;
+    /* full black as requested */
+    border: 1px solid #111;
+    /* subtle border */
+    border-radius: 14px;
+    width: min(900px, 92%);
+    max-height: 82vh;
+    overflow-y: auto;
+    padding: 1.35rem 1.55rem 1.55rem;
+    box-shadow: 0 20px 50px -15px rgba(0, 0, 0, .75), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+
+/* Modal content readability */
+#modal-content h2 {
+    font-size: 1.7rem;
+    line-height: 1.2;
+    letter-spacing: .5px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+#modal-content p {
+    color: #fff;
+    line-height: 1.6;
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+#modal-content ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0.75rem 0 0.6rem;
+}
+
+#modal-content li {
+    margin: .45rem 0;
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 1.15rem;
+}
+
+#modal-content li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .6em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04);
+}
+
+#modal-content strong {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* Subtle highlight blocks (auto applied if developer wraps spans) */
+#modal-content .highlight {
+    background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 28%, transparent), color-mix(in srgb, var(--accent-2) 24%, transparent));
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+/* Ensure project section has space before next section to avoid visual overlap */
+section[aria-labelledby="projects-title"] {
+    margin-bottom: 2.5rem;
+}
+
+.modal__backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+}
+
+.modal__close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    border: none;
+    background: transparent;
+    font-size: 1.6rem;
+    color: var(--muted);
+    cursor: pointer;
+}

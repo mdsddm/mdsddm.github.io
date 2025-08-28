@@ -1,0 +1,165 @@
+/* Base: CSS Reset + Variables + Typography */
+
+/* 1) Modern CSS reset (minimal) */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+html:focus-within {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    text-rendering: optimizeLegibility;
+    line-height: 1.6;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+/* 2) Theme variables */
+:root {
+    /* Dark theme (default) – refreshing teal + soft violet accent pair */
+    --bg: #06141a;
+    /* deep cyan-slate */
+    --bg-soft: #0c2129;
+    /* nav / panels */
+    --card: #102a34;
+    /* card base slightly lighter */
+    --text: #f2f9fb;
+    /* near-white with hint of blue */
+    --muted: #87a2ad;
+    /* cool muted */
+    --accent: #34d3b4;
+    /* mint/teal glow */
+    --accent-2: #8b6ff8;
+    /* soft violet */
+    --border: #1b3943;
+    /* subtle cool border */
+    --error: #ef4444;
+
+    --radius: 12px;
+    --shadow: 0 10px 28px -6px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+}
+
+/* Light theme – airy aqua backdrop with deeper teal + indigo-violet accents */
+:root.light {
+    --bg: #f2fbfa;
+    /* very pale aqua */
+    --bg-soft: #ffffff;
+    /* panels */
+    --card: #ffffff;
+    --text: #0e272d;
+    /* deep teal-slate */
+    --muted: #5d757d;
+    /* cooled gray */
+    --accent: #0d9c89;
+    /* rich teal for contrast */
+    --accent-2: #6852e9;
+    /* indigo-violet */
+    --border: #cfe2e4;
+    /* soft aqua border */
+}
+
+/* 3) Base elements */
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+.container {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+}
+
+.section {
+    padding: 3rem 0;
+}
+
+.section__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+h1 {
+    font-size: clamp(1.8rem, 2vw + 1rem, 2.6rem);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: clamp(1.4rem, 1.5vw + 0.8rem, 2rem);
+    margin-bottom: 0.75rem;
+}
+
+h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+p.lead {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 60ch;
+}
+
+a {
+    color: var(--accent-2);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Global interactive hover/active transitions */
+button,
+.btn,
+a,
+input,
+textarea,
+.chip,
+.badge {
+    transition: background .35s, color .35s, border-color .35s, box-shadow .35s, transform .35s;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 2px;
+}
+
+button:hover:not(:disabled),
+.btn:hover,
+.btn:focus-visible {
+    box-shadow: 0 4px 14px -4px rgba(0, 0, 0, .45);
+}
+
+ul.list {
+    margin-left: 1rem;
+}

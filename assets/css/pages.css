@@ -1,0 +1,390 @@
+/* Page-specific styles */
+
+#featured-projects .card--project {
+    transition: transform 160ms ease;
+}
+
+#featured-projects .card--project:hover {
+    transform: translateY(-4px);
+}
+
+/* What I Do (highlights) card hover animation */
+#highlights .card {
+    position: relative;
+    overflow: hidden;
+    transition: transform .5s cubic-bezier(.22, .9, .3, 1), box-shadow .55s ease, background .6s;
+    background: linear-gradient(155deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+}
+
+#highlights .card::before,
+#highlights .card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .8s ease, transform 1.2s ease;
+}
+
+/* Animated gradient border (mask technique) */
+#highlights .card::before {
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+}
+
+/* Soft sheen */
+#highlights .card::after {
+    background:
+        radial-gradient(circle at 25% 20%, rgba(255, 255, 255, 0.18), transparent 60%),
+        radial-gradient(circle at 80% 75%, rgba(255, 255, 255, 0.07), transparent 70%),
+        linear-gradient(140deg, rgba(255, 255, 255, 0.05) 0%, transparent 65%);
+    mix-blend-mode: overlay;
+    transform: scale(1.15);
+}
+
+#highlights .card:hover {
+    transform: translateY(-10px) scale(1.015);
+    box-shadow: 0 18px 38px -12px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+
+#highlights .card:hover::before,
+#highlights .card:hover::after {
+    opacity: 1;
+}
+
+/* Focus accessibility mirrors hover */
+#highlights .card:focus-within {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #highlights .card {
+        transition: box-shadow .4s, background .4s;
+    }
+
+    #highlights .card:hover {
+        transform: none;
+    }
+}
+
+.filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.filters .chip.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: transparent;
+}
+
+.contact-meta {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* Skills pills */
+ul.chips {
+    list-style: none;
+    padding: 0;
+    margin: .25rem 0 1.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .55rem;
+}
+
+ul.chips li {
+    position: relative;
+    padding: .55rem .95rem .6rem;
+    font-size: .85rem;
+    letter-spacing: .35px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--muted);
+    backdrop-filter: blur(4px) saturate(150%);
+    --ring-opacity: 0;
+    transition: background .45s ease, border-color .45s ease, color .45s ease, transform .5s cubic-bezier(.22, .9, .3, 1), box-shadow .5s ease;
+}
+
+ul.chips li::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(120deg, var(--accent) 0%, var(--accent-2) 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: var(--ring-opacity);
+    transition: opacity .6s ease;
+}
+
+ul.chips li:hover,
+ul.chips li:focus-visible {
+    color: var(--text);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+    border-color: rgba(255, 255, 255, 0.18);
+    transform: translateY(-4px);
+    --ring-opacity: 1;
+    box-shadow: 0 8px 22px -8px rgba(0, 0, 0, .55);
+}
+
+ul.chips li:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px -6px rgba(0, 0, 0, .55);
+}
+
+@media (prefers-reduced-motion:reduce) {
+    ul.chips li {
+        transition: background .4s, color .4s, border-color .4s;
+    }
+
+    ul.chips li:hover {
+        transform: none;
+    }
+}
+
+/* Certifications list modern styling */
+#cert-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0 0;
+    display: grid;
+    gap: .9rem;
+}
+
+#cert-list li {
+    position: relative;
+    padding: .85rem 1.05rem .9rem 1.2rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0));
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    font-size: .95rem;
+    color: var(--text);
+    line-height: 1.4;
+    overflow: hidden;
+    cursor: default;
+    transition: background .55s ease, border-color .55s ease, transform .55s cubic-bezier(.22, .9, .3, 1), box-shadow .55s ease;
+}
+
+#cert-list li::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05), 0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+}
+
+#cert-list li::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    opacity: 0;
+    pointer-events: none;
+    background: linear-gradient(120deg, var(--accent) 0%, var(--accent-2) 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    transition: opacity .7s ease;
+}
+
+#cert-list li:hover,
+#cert-list li:focus-visible {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.02));
+    transform: translateY(-6px);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 14px 36px -14px rgba(0, 0, 0, .6), 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+}
+
+#cert-list li:hover::after,
+#cert-list li:focus-visible::after {
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion:reduce) {
+    #cert-list li {
+        transition: background .4s, border-color .4s;
+    }
+
+    #cert-list li:hover {
+        transform: none;
+    }
+}
+
+/* About page styled lists */
+.about-rich ul.list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    display: grid;
+    gap: .6rem;
+}
+
+.about-rich ul.list li {
+    position: relative;
+    padding: .55rem .75rem .6rem 1.2rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: .9rem;
+    color: var(--text);
+    line-height: 1.35;
+    transition: background .5s, border-color .5s, transform .5s, box-shadow .5s;
+}
+
+.about-rich ul.list li::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+}
+
+.about-rich ul.list li:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03));
+    border-color: rgba(255, 255, 255, 0.22);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px -12px rgba(0, 0, 0, .55);
+}
+
+/* Quick links list inside card */
+.quick-links {
+    list-style: none;
+    padding: 0;
+    margin: .8rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: .55rem;
+}
+
+.quick-links li {
+    position: relative;
+}
+
+.quick-links a {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    padding: .55rem .85rem .6rem 1rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0));
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: .9rem;
+    letter-spacing: .3px;
+    transition: background .45s, border-color .45s, color .45s, transform .55s, box-shadow .55s;
+}
+
+.quick-links a::before {
+    content: "→";
+    font-size: .85rem;
+    color: var(--accent-2);
+    opacity: .8;
+    transition: transform .55s ease, color .45s;
+}
+
+.quick-links a:hover,
+.quick-links a:focus-visible {
+    color: var(--text);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+    border-color: rgba(255, 255, 255, 0.22);
+    transform: translateX(6px);
+    box-shadow: 0 10px 28px -10px rgba(0, 0, 0, .55);
+}
+
+.quick-links a:hover::before,
+.quick-links a:focus-visible::before {
+    transform: translateX(3px);
+    color: var(--accent);
+}
+
+@media (prefers-reduced-motion:reduce) {
+    .quick-links a {
+        transition: background .4s, color .4s, border-color .4s;
+    }
+
+    .quick-links a:hover {
+        transform: none;
+    }
+}
+
+/* About rich text paragraphs */
+.about-rich p {
+    position: relative;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0));
+    border: 1px solid var(--border);
+    padding: .85rem 1rem .95rem 1.05rem;
+    border-radius: 14px;
+    line-height: 1.55;
+    font-size: .92rem;
+    color: var(--muted);
+    margin: 0 0 .9rem;
+    overflow: hidden;
+    backdrop-filter: blur(2px);
+    transition: background .55s, border-color .55s, transform .55s, box-shadow .55s, color .55s;
+}
+
+.about-rich p::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.15), transparent 60%), linear-gradient(120deg, rgba(255, 255, 255, 0.03), transparent 70%);
+    mix-blend-mode: overlay;
+    opacity: .55;
+    pointer-events: none;
+    transition: opacity .6s;
+}
+
+.about-rich p:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--text);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 26px -14px rgba(0, 0, 0, .6);
+}
+
+.about-rich p:hover::after {
+    opacity: .85;
+}
+
+.about-rich p+p {
+    margin-top: -.4rem;
+}
+
+/* slight overlap layering effect */
+@media (prefers-reduced-motion:reduce) {
+    .about-rich p {
+        transition: background .4s, color .4s, border-color .4s;
+    }
+
+    .about-rich p:hover {
+        transform: none;
+    }
+}

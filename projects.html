@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Projects | Mohd Saddam</title>
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/layout.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/pages.css" />
+</head>
+
+<body>
+    <header id="site-header"></header>
+
+    <main class="container section">
+        <div class="section__header">
+            <h1>Projects</h1>
+            <div class="filters">
+                <button class="chip active" data-filter="all">All</button>
+                <button class="chip" data-filter="web">Web</button>
+                <button class="chip" data-filter="security">Security</button>
+                <button class="chip" data-filter="gui">GUI</button>
+            </div>
+        </div>
+
+        <div id="project-grid" class="grid grid--3"></div>
+
+        <!-- Modal (reusable) -->
+        <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+            <div class="modal__dialog" role="document">
+                <button class="modal__close" aria-label="Close modal">&times;</button>
+                <div id="modal-content"></div>
+            </div>
+            <div class="modal__backdrop" tabindex="-1"></div>
+        </div>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="assets/js/data.js" defer></script>
+    <script src="assets/js/components.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+</body>
+
+</html>

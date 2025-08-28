@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description"
+        content="Portfolio of Mohd Saddam - MCA student, full-stack developer (MERN in progress), DSA, Python, Java." />
+    <title>Mohd Saddam | Portfolio</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/layout.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/pages.css" />
+    <link rel="stylesheet" href="assets/css/theme-toggle.css" />
+</head>
+
+<body>
+
+    <!-- Header injected by JS for modularity -->
+    <header id="site-header" aria-label="Primary"></header>
+
+    <main id="content">
+        <!-- Hero Section -->
+        <section class="hero container" aria-labelledby="hero-title">
+            <div class="hero__text">
+                <h1 id="hero-title">Hi, I'm <span class="accent">Mohd Saddam</span></h1>
+                <p class="lead">
+                    MCA candidate at Jamia Millia Islamia. Strong in DSA, Python, Java, and full‑stack web development
+                    (MERN in progress). Passionate about scalable, user‑focused applications. [Resume-aligned]
+                </p>
+                <div class="hero__cta">
+                    <a class="btn btn--primary" href="projects.html">View Projects</a>
+                    <a class="btn btn--ghost" href="assets/Mohd_Saddam_CV.pdf" download>Download CV</a>
+                </div>
+                <ul class="hero__meta">
+                    <li><strong>CGPA:</strong> 8.665 (MCA)</br></li>
+                    <li><strong>Location:</strong> Delhi, India</li>
+                </ul>
+            </div>
+            <div class="hero__visual">
+                <img src="assets/img/profile.jpg" alt="Portrait of Mohd Saddam" />
+            </div>
+        </section>
+
+        <!-- Highlights -->
+        <section id="highlights" class="container section" aria-labelledby="highlights-title">
+            <h2 id="highlights-title">What I Do</h2>
+            <div class="grid grid--3">
+                <article class="card">
+                    <h3>Full‑Stack Development</h3>
+                    <p>Building responsive UIs, RESTful APIs, and integrating databases with a focus on performance and
+                        accessibility.</p>
+                </article>
+                <article class="card">
+                    <h3>Data Structures & Algorithms</h3>
+                    <p>Writing clean, efficient solutions; comfortable with problem solving and optimizing time/space
+                        complexity.</p>
+                </article>
+                <article class="card">
+                    <h3>Security‑Aware Systems</h3>
+                    <p>Experience building dashboards and controls for cybersecurity policy and vulnerability
+                        management.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Projects preview (rendered via JS) -->
+        <section class="container section" aria-labelledby="projects-title">
+            <div class="section__header">
+                <h2 id="projects-title">Featured Projects</h2>
+                <a class="link" href="projects.html">See all</a>
+            </div>
+            <div id="featured-projects" class="grid grid--3"></div>
+            <!-- Shared modal for project details on homepage -->
+            <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+                <div class="modal__dialog" role="document">
+                    <button class="modal__close" aria-label="Close modal">&times;</button>
+                    <div id="modal-content"></div>
+                </div>
+                <div class="modal__backdrop" tabindex="-1"></div>
+            </div>
+        </section>
+
+        <!-- Contact prompt -->
+        <section class="cta container section" aria-labelledby="cta-title">
+            <h2 id="cta-title">Open to Internships & Roles</h2>
+            <p>Interested in roles aligned with DSA, backend or full‑stack engineering, and security‑aware applications.
+            </p>
+            <a class="btn btn--primary" href="contact.html">Get in touch</a>
+        </section>
+    </main>
+
+    <!-- Footer injected by JS -->
+    <footer id="site-footer" aria-label="Footer"></footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/data.js" defer></script>
+    <script src="assets/js/components.js" defer></script>
+    <script src="assets/js/main.js" defer></script>
+</body>
+
+</html>
