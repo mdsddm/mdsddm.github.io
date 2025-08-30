@@ -83,9 +83,78 @@ select {
 
 /* 3) Base elements */
 body {
-    background: var(--bg);
+    position: relative;
+    background:
+        radial-gradient(at 18% 22%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 60%),
+        radial-gradient(at 82% 78%, color-mix(in srgb, var(--accent-2) 16%, transparent), transparent 65%),
+        linear-gradient(180deg, color-mix(in srgb, var(--bg) 88%, #000 12%) 0%, var(--bg) 55%),
+        var(--bg);
+    background-attachment: fixed;
     color: var(--text);
     font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* Fast, aesthetic theme switch helper (applied briefly via JS) */
+html.theme-switching *:not(html):not(body)::before,
+html.theme-switching *:not(html):not(body)::after,
+html.theme-switching *:not(html):not(body) {
+    transition: background-color .22s ease, background .28s ease, color .18s ease, border-color .22s ease, box-shadow .28s ease, fill .22s ease, stroke .22s ease, filter .28s ease;
+}
+html.theme-switching body { transition: background .35s ease; }
+
+/* Overlay that captures the previous theme and fades out quickly */
+#theme-transition-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    animation: themeFadeOut .24s ease forwards;
+    background: var(--bg); /* actual computed gradient applied inline via JS when possible */
+}
+@keyframes themeFadeOut { from { opacity: 1; } to { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { #theme-transition-overlay { animation-duration: .01ms; } }
+
+/* Subtle noise / texture overlay (replaces harsh diagonal lines) */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.12'/></svg>");
+    background-size: 260px 260px;
+    mix-blend-mode: overlay;
+    opacity: .55;
+    animation: noiseShift 18s linear infinite alternate;
+}
+
+/* Disable moving noise texture when sheet is open to avoid perceived blur */
+body.sheet-open::before {
+    opacity: .15;
+    animation: none;
+}
+
+@keyframes noiseShift {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        transform: translate3d(-60px, 40px, 0);
+    }
+}
+
+:root.light body {
+    background:
+        radial-gradient(at 18% 22%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%),
+        radial-gradient(at 82% 78%, color-mix(in srgb, var(--accent-2) 20%, transparent), transparent 65%),
+        linear-gradient(180deg, color-mix(in srgb, var(--bg) 92%, #ffffff 6%) 0%, var(--bg) 55%),
+        var(--bg);
+}
+
+:root.light body::before {
+    opacity: .35;
+    mix-blend-mode: multiply;
 }
 
 .container {
@@ -162,4 +231,81 @@ button:hover:not(:disabled),
 
 ul.list {
     margin-left: 1rem;
+}
+
+/* === Anti-copy (user request) ============================================ */
+/* Adds a class to <html> via JS so this can be toggled/removed easily later. */
+html.nocopy,
+html.nocopy body,
+html.nocopy *:not(input):not(textarea) {
+    -webkit-user-select: none !important;
+    user-select: none !important;
+}
+
+html.nocopy img,
+html.nocopy svg,
+html.nocopy picture {
+    -webkit-user-drag: none;
+    pointer-events: none;
+    /* prevents drag/save interactions */
+}
+html.nocopy video, html.nocopy canvas { -webkit-user-drag:none; pointer-events:none; }
+html.nocopy *, html.nocopy *::before, html.nocopy *::after { -webkit-touch-callout: none; }
+/* Preserve form control usability */
+html.nocopy input, html.nocopy textarea, html.nocopy button, html.nocopy select { pointer-events:auto; user-select:text; }
+
+/* ===================================================================== */
+/* Performance Enhancements                                              */
+/* --------------------------------------------------------------------- */
+/* .perf-fast class placed on <html> (auto for lower-end devices) trims  */
+/* heavy animations, long transitions, large blurs & glow shadows for a  */
+/* snappier feel without fully stripping visual design.                  */
+/* ===================================================================== */
+html.perf-fast * { transition-duration: .25s !important; }
+html.perf-fast .cta { animation: none !important; }
+html.perf-fast .hero__visual:hover::before { animation: none !important; }
+html.perf-fast .hh-visual__frame:hover img { transform: none !important; }
+html.perf-fast .feature-card:hover,
+html.perf-fast .strength:hover,
+html.perf-fast .projects-page .card--project:hover,
+html.perf-fast .skill-group:hover,
+html.perf-fast .timeline li:hover,
+html.perf-fast .contact-card:hover { transform: none !important; }
+html.perf-fast .feature-card,
+html.perf-fast .strength,
+html.perf-fast .projects-page .card--project,
+html.perf-fast .skill-group,
+html.perf-fast .timeline li,
+html.perf-fast .contact-card { box-shadow: 0 6px 18px -10px rgba(0,0,0,.45) !important; }
+html.perf-fast .nav__links a.active,
+html.perf-fast .nav__links a:hover { transform: none !important; }
+html.perf-fast .hh-icon,
+html.perf-fast .hh-icon:hover { transform: none !important; }
+html.perf-fast .hero__visual::before { animation: none !important; }
+html.perf-fast .ph-decor { animation: none !important; }
+@media (prefers-reduced-motion: reduce) {
+    /* Honor user setting by also disabling hover transforms globally */
+    html:not(.perf-fast) .feature-card:hover,
+    html:not(.perf-fast) .strength:hover,
+    html:not(.perf-fast) .projects-page .card--project:hover,
+    html:not(.perf-fast) .skill-group:hover,
+    html:not(.perf-fast) .timeline li:hover,
+    html:not(.perf-fast) .contact-card:hover { transform:none; }
+}
+
+/* ===================================================================== */
+/* Ultra Fast Page Switch Cross-Fade (SPA-lite)                          */
+/* Provides a 120–160ms opacity blend to prevent perceived jitter when   */
+/* replacing <main>. Only opacity (and tiny translate) animates for GPU  */
+/* friendliness. Disabled when prefers-reduced-motion is set.            */
+/* ===================================================================== */
+html.fast-nav-switching body { cursor: progress; }
+main.fastnav-outgoing, main.fastnav-incoming { will-change: opacity, transform; }
+main.fastnav-outgoing { position: relative; z-index: 0; }
+main.fastnav-incoming { position: absolute; inset: 0; z-index: 1; opacity: 0; pointer-events: none; }
+html.fast-nav-switching main.fastnav-outgoing { opacity: 0; transition: opacity .14s ease; }
+html.fast-nav-switching main.fastnav-incoming { transition: opacity .16s ease .04s, transform .18s ease; transform: translateY(4px); }
+html.fast-nav-switching main.fastnav-incoming.fastnav-show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+@media (prefers-reduced-motion: reduce) {
+    html.fast-nav-switching main.fastnav-incoming, html.fast-nav-switching main.fastnav-outgoing { transition: none !important; transform:none !important; }
 }

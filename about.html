@@ -13,32 +13,78 @@
 
 <body>
     <header id="site-header"></header>
-    <main class="container section">
-        <h1>About</h1>
-        <div class="grid grid--2">
-            <div class="about-rich">
-                <p>MCA candidate at Jamia Millia Islamia with a strong foundation in DSA, Python, Java, and web
-                    technologies. Currently upskilling in MERN stack and passionate about building scalable,
-                    user-focused applications.</p>
-                <p>Comfortable across the stack: HTML, CSS, JavaScript, databases (MySQL, MongoDB), Git/GitHub, and
-                    Python GUI (Tkinter). Values code readability, tests, and accessibility.</p>
-                <ul class="list">
-                    <li>Education: MCA (CGPA 8.665), BCA 73.75%</li>
-                    <li>Interests: Competitive programming, full‑stack, system optimization</li>
-                    <li>Location: Delhi, India</li>
-                </ul>
+    <main class="container section about">
+        <!-- Hero / Intro -->
+        <section class="about-hero" aria-labelledby="about-title">
+            <div class="ah-media" aria-hidden="true">
+                <div class="ah-media__ring"></div>
+                <img src="assets/img/profile.jpg" alt="Profile photo of Mohd Saddam" width="320" height="320"
+                    loading="lazy" decoding="async" />
             </div>
-            <aside class="card">
-                <h2>Quick Links</h2>
-                <ul class="quick-links list">
-                    <li><a href="skills.html">Skills</a></li>
-                    <li><a href="projects.html">Projects</a></li>
-                    <li><a href="certifications.html">Certifications</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="assets/Mohd_Saddam_CV.pdf" target="_blank" rel="noopener">Resume</a></li>
+            <div class="ah-intro">
+                <h1 id="about-title" class="ah-heading">About</h1>
+                <p class="ah-tagline">MCA candidate crafting performant, user‑centric solutions across the stack —
+                    currently diving deep into the MERN ecosystem.</p>
+                <ul class="ah-stats" aria-label="Key academic snapshot">
+                    <li><span class="ah-stat__value">8.665</span><span class="ah-stat__label">MCA CGPA</span></li>
+                    <li><span class="ah-stat__value">73.75%</span><span class="ah-stat__label">BCA</span></li>
+                    <li><span class="ah-stat__value">Full‑Stack</span><span class="ah-stat__label">MERN
+                            Upskilling</span></li>
                 </ul>
+                <div class="ah-actions">
+                    <a class="btn btn--primary" href="assets/Mohd_Saddam_CV.pdf" download
+                        aria-label="Download CV as PDF">Download CV</a>
+                    <a class="btn btn--details" href="contact.html" aria-label="Go to contact page">Contact</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Narrative -->
+        <section class="about-body" aria-label="Profile overview">
+            <div class="about-content">
+                <div class="about-block">
+                    <h2 class="about-subheading">Who I Am</h2>
+                    <p>MCA candidate at Jamia Millia Islamia with a strong foundation in DSA, Python, Java and modern
+                        web technologies. I enjoy translating requirements into reliable, maintainable systems with
+                        thoughtful design and readable code.</p>
+                </div>
+                <div class="about-block">
+                    <h2 class="about-subheading">What I Work With</h2>
+                    <p>Hands‑on across the stack: semantic HTML, modern CSS, JavaScript, Python (including Tkinter for
+                        GUI utilities), databases (MySQL & MongoDB), Git/GitHub, and emerging MERN stack capability. I
+                        value accessibility, DX, and incremental improvement.</p>
+                </div>
+                <div class="about-block">
+                    <h2 class="about-subheading">Interests & Focus</h2>
+                    <ul class="about-features">
+                        <li class="about-feature"><span class="about-feature__icon"></span><span>Competitive programming
+                                & algorithmic thinking</span></li>
+                        <li class="about-feature"><span class="about-feature__icon"></span><span>Full‑stack application
+                                architecture</span></li>
+                        <li class="about-feature"><span class="about-feature__icon"></span><span>Performance & system
+                                optimization</span></li>
+                    </ul>
+                </div>
+            </div>
+            <aside class="about-side">
+                <div class="card about-side__card">
+                    <h2 class="about-subheading">Education</h2>
+                    <ul class="timeline">
+                        <li><strong>MCA</strong> – Ongoing (CGPA 8.665)</li>
+                        <li><strong>BCA</strong> – 73.75%</li>
+                    </ul>
+                </div>
+                <div class="card about-side__card">
+                    <h2 class="about-subheading">Quick Links</h2>
+                    <ul class="quick-links list" role="list">
+                        <li><a href="skills.html">Skills</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="certifications.html">Certifications</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
             </aside>
-        </div>
+        </section>
     </main>
     <footer id="site-footer"></footer>
     <script src="assets/js/data.js" defer></script>

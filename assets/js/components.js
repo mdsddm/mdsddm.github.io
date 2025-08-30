@@ -67,14 +67,22 @@ function renderFooter() {
 function projectCard(p) {
   return `
     <article class="card card--project" data-category="${p.category}">
-      <img class="thumb" src="${p.thumb}" alt="${p.title} thumbnail"/>
-      <h3>${p.title}</h3>
-      <p>${p.description}</p>
-      <div class="tags">${p.tech.map(t => `<span class="badge">${t}</span>`).join("")}</div>
-      <div style="margin-top:0.5rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
-        ${p.links.live !== "#" ? `<a class="btn btn--primary" href="${p.links.live}" target="_blank" rel="noopener">Live</a>` : ""}
-        ${p.links.repo !== "#" ? `<a class="btn" href="${p.links.repo}" target="_blank" rel="noopener">Repo</a>` : ""}
-        <button class="btn js-details" data-slug="${p.slug}">Details</button>
+      <div class="media">
+        <img class="thumb" src="${p.thumb}" alt="${p.title} thumbnail" loading="lazy" decoding="async"/>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">${p.title}</h3>
+        <p class="project-desc">${p.description}</p>
+        <div class="tags">${p.tech.map(t => `<span class="badge">${t}</span>`).join("")}</div>
+        <div class="project-actions">
+     ${p.slug === 'tkinter-calculator'
+      ? `<button class="btn btn--details js-details" data-slug="${p.slug}" aria-label="Open ${p.title} details">Details</button>
+      ${p.links.repo !== "#" ? `<a class="btn btn--repo" href="${p.links.repo}" target="_blank" rel="noopener">Repo</a>` : ""}
+      ${p.links.live !== "#" ? `<a class="btn btn--primary" href="${p.links.live}" target="_blank" rel="noopener">Live</a>` : ""}`
+      : `${p.links.live !== "#" ? `<a class="btn btn--primary" href="${p.links.live}" target="_blank" rel="noopener">Live</a>` : ""}
+      ${p.links.repo !== "#" ? `<a class="btn btn--repo" href="${p.links.repo}" target="_blank" rel="noopener">Repo</a>` : ""}
+      <button class="btn btn--details js-details" data-slug="${p.slug}" aria-label="Open ${p.title} details">Details</button>`}
+        </div>
       </div>
     </article>
   `;
@@ -92,15 +100,7 @@ function renderFeatured() {
     const slug = btn.dataset.slug;
     const project = PROFILE.projects.find(p => p.slug === slug);
     if (!project) return;
-    const features = project.features ? `<ul style="margin:0.75rem 0 0.5rem 1.1rem; line-height:1.4;">${project.features.map(f => `<li>${f}</li>`).join("")}</ul>` : "";
-    const links = `<p style=\"margin-top:0.75rem; display:flex; gap:.75rem; flex-wrap:wrap;\">${project.links.repo !== '#' ? `<a class='btn' href='${project.links.repo}' target='_blank' rel='noopener'>Repo</a>` : ''}${project.links.live !== '#' ? `<a class='btn btn--primary' href='${project.links.live}' target='_blank' rel='noopener'>Live</a>` : ''}</p>`;
-    openModal(`
-      <h2 style=\"margin-bottom:.4rem;\">${project.title}</h2>
-      <p style=\"margin:0 0 .6rem;\">${project.details}</p>
-      ${features}
-      <p style=\"margin:.6rem 0 0;\"><strong>Tech:</strong> ${project.tech.join(", ")}</p>
-      ${links}
-    `);
+    openModal(buildProjectDetail(project));
   });
 }
 
@@ -130,28 +130,63 @@ function renderProjects() {
     if (!button) return;
     const slug = button.dataset.slug;
     const project = PROFILE.projects.find(p => p.slug === slug);
-    const features = project.features ? `<ul style="margin:0.75rem 0 0.5rem 1.1rem; line-height:1.4;">${project.features.map(f => `<li>${f}</li>`).join("")}</ul>` : "";
-    const links = `<p style="margin-top:0.75rem; display:flex; gap:.75rem; flex-wrap:wrap;">${project.links.repo !== '#' ? `<a class='btn' href='${project.links.repo}' target='_blank' rel='noopener'>Repo</a>` : ''}${project.links.live !== '#' ? `<a class='btn btn--primary' href='${project.links.live}' target='_blank' rel='noopener'>Live</a>` : ''}</p>`;
-    openModal(`
-      <h2 style="margin-bottom:.4rem;">${project.title}</h2>
-      <p style="margin:0 0 .6rem;">${project.details}</p>
-      ${features}
-      <p style="margin:.6rem 0 0;"><strong>Tech:</strong> ${project.tech.join(", ")}</p>
-      ${links}
-    `);
+    openModal(buildProjectDetail(project));
   });
+}
+
+/* Build modern project detail modal markup */
+function buildProjectDetail(p) {
+  // Escape helper to avoid accidental HTML injection
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[c]);
+  const featureList = p.features ? p.features.map(f => `<li class="ps-feature"><span class="ps-feature__icon"></span><span>${esc(f)}</span></li>`).join("") : "";
+  const repoLink = p.links.repo !== '#' ? `<a class='btn btn--ghost' href='${p.links.repo}' target='_blank' rel='noopener'>Repo</a>` : '';
+  const liveLink = p.links.live !== '#' ? `<a class='btn btn--primary' href='${p.links.live}' target='_blank' rel='noopener'>Live</a>` : '';
+  const techBadges = p.tech.map(t => `<span class="ps-chip">${esc(t)}</span>`).join("");
+  const detailText = esc(p.details && p.details.trim() ? p.details : p.description);
+  return `
+  <article class="project-sheet" aria-labelledby="ps-title" role="dialog">
+    <div class="project-sheet__head">
+      <div class="project-sheet__media">
+        <img src="${p.thumb}" alt="${esc(p.title)} cover" loading="lazy" decoding="async" />
+      </div>
+      <div class="project-sheet__title">
+        <h2 id="ps-title" class="project-sheet__heading">${esc(p.title)}</h2>
+        <p class="project-sheet__tagline">${esc(p.description)}</p>
+      </div>
+    </div>
+    <div class="project-sheet__body">
+      <p class="project-sheet__overview">${detailText}</p>
+      ${featureList ? `<div class="project-sheet__block" aria-label="Key Features"><ul class="project-sheet__features">${featureList}</ul></div>` : ''}
+      <div class="project-sheet__block" aria-label="Tech Stack">
+        <h3 class="project-sheet__subheading">Tech Stack</h3>
+        <div class="project-sheet__chips">${techBadges}</div>
+      </div>
+      <div class="project-sheet__actions" aria-label="Project Links">${repoLink}${liveLink}</div>
+    </div>
+  </article>`;
 }
 
 /* Modal helpers */
 function openModal(html) {
   const modal = document.getElementById("modal");
   const content = document.getElementById("modal-content");
+  if (!modal || !content) return;
   content.innerHTML = html;
+  document.body.classList.add('sheet-open');
   modal.setAttribute("aria-hidden", "false");
+  requestAnimationFrame(() => content.focus());
 }
 function closeModal() {
   const modal = document.getElementById("modal");
+  if (!modal) return;
   modal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove('sheet-open');
 }
 
 /* Skill lists */
@@ -183,6 +218,8 @@ document.addEventListener("DOMContentLoaded", () => {
   renderProjects();
   renderSkills();
   renderCerts();
+
+  // (Removed lens JS; shimmer handled via CSS only)
 
   // Modal wiring
   const modal = document.getElementById("modal");

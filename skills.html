@@ -13,20 +13,39 @@
 
 <body>
     <header id="site-header"></header>
-    <main class="container section">
-        <h1>Skills</h1>
+    <main class="skills-page">
+        <section class="page-hero ph-skills container" aria-labelledby="skills-title">
+            <div class="ph-inner">
+                <div class="ph-decor" aria-hidden="true"></div>
+                <h1 id="skills-title" class="ph-heading">Skills</h1>
+                <p class="ph-tagline">Stacks & tools I work with—organized by layer for quick scanning and depth growth
+                    tracking.</p>
+                <ul class="ph-badges" role="list" aria-label="Skill focus areas">
+                    <li>Full‑Stack</li>
+                    <li>Problem Solving</li>
+                    <li>Tooling</li>
+                </ul>
+            </div>
+        </section>
 
-        <h2>Programming Languages</h2>
-        <ul id="skills-languages" class="chips"></ul>
-
-        <h2>Web Development</h2>
-        <ul id="skills-web" class="chips"></ul>
-
-        <h2>Frameworks & Tools</h2>
-        <ul id="skills-tools" class="chips"></ul>
-
-        <h2>Databases</h2>
-        <ul id="skills-dbs" class="chips"></ul>
+        <section class="skills-groups container" aria-label="Skill groups">
+            <div class="skill-group">
+                <h2 class="sg-title">Languages</h2>
+                <ul id="skills-languages" class="skill-cloud" role="list"></ul>
+            </div>
+            <div class="skill-group">
+                <h2 class="sg-title">Web</h2>
+                <ul id="skills-web" class="skill-cloud" role="list"></ul>
+            </div>
+            <div class="skill-group">
+                <h2 class="sg-title">Frameworks & Tools</h2>
+                <ul id="skills-tools" class="skill-cloud" role="list"></ul>
+            </div>
+            <div class="skill-group">
+                <h2 class="sg-title">Databases</h2>
+                <ul id="skills-dbs" class="skill-cloud" role="list"></ul>
+            </div>
+        </section>
     </main>
     <footer id="site-footer"></footer>
 

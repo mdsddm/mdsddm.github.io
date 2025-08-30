@@ -14,24 +14,39 @@
 <body>
     <header id="site-header"></header>
 
-    <main class="container section">
-        <div class="section__header">
-            <h1>Projects</h1>
-            <div class="filters">
-                <button class="chip active" data-filter="all">All</button>
-                <button class="chip" data-filter="web">Web</button>
-                <button class="chip" data-filter="security">Security</button>
-                <button class="chip" data-filter="gui">GUI</button>
+    <main class="projects-page">
+        <section class="page-hero ph-projects container" aria-labelledby="projects-title">
+            <div class="ph-inner">
+                <div class="ph-decor" aria-hidden="true"></div>
+                <h1 id="projects-title" class="ph-heading">Projects</h1>
+                <p class="ph-tagline">Selected builds, experiments & shipped features—clean structure, performance
+                    focus, practical impact.</p>
+                <ul class="ph-badges" role="list" aria-label="Project qualities">
+                    <li>Performance</li>
+                    <li>Accessibility</li>
+                    <li>Real‑world</li>
+                </ul>
+                <div class="ph-filters filters" aria-label="Project filters">
+                    <button class="chip active" data-filter="all">All</button>
+                    <button class="chip" data-filter="web">Web</button>
+                    <button class="chip" data-filter="security">Security</button>
+                    <button class="chip" data-filter="gui">GUI</button>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div id="project-grid" class="grid grid--3"></div>
+        <section class="projects-grid-wrap container" aria-label="Project list">
+            <div id="project-grid" class="projects-grid grid grid--3" data-projects></div>
+        </section>
 
         <!-- Modal (reusable) -->
-        <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
-            <div class="modal__dialog" role="document">
-                <button class="modal__close" aria-label="Close modal">&times;</button>
-                <div id="modal-content"></div>
+        <div id="modal" class="modal modal--sheet" aria-hidden="true" role="dialog" aria-modal="true">
+            <div class="sheet" role="document">
+                <header class="sheet__bar">
+                    <h2 id="sheet-title" class="visually-hidden">Project details</h2>
+                    <button class="modal__close" aria-label="Close details">&times;</button>
+                </header>
+                <div id="modal-content" class="sheet__scroll" tabindex="0"></div>
             </div>
             <div class="modal__backdrop" tabindex="-1"></div>
         </div>

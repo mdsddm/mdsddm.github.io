@@ -23,48 +23,158 @@
     <header id="site-header" aria-label="Primary"></header>
 
     <main id="content">
-        <!-- Hero Section -->
-        <section class="hero container" aria-labelledby="hero-title">
-            <div class="hero__text">
-                <h1 id="hero-title">Hi, I'm <span class="accent">Mohd Saddam</span></h1>
-                <p class="lead">
-                    MCA candidate at Jamia Millia Islamia. Strong in DSA, Python, Java, and full‑stack web development
-                    (MERN in progress). Passionate about scalable, user‑focused applications. [Resume-aligned]
-                </p>
-                <div class="hero__cta">
-                    <a class="btn btn--primary" href="projects.html">View Projects</a>
-                    <a class="btn btn--ghost" href="assets/Mohd_Saddam_CV.pdf" download>Download CV</a>
+        <!-- Hero Section (Redesigned) -->
+        <section class="home-hero" aria-labelledby="hero-title">
+            <div class="home-hero__inner container">
+                <div class="hh-text">
+                    <div class="hh-pre" aria-label="Tagline">Full‑Stack • DSA • Security Aware</div>
+                    <h1 id="hero-title" class="hh-heading">Crafting <span class="hh-gradient">performant</span>,
+                        user‑centric solutions.</h1>
+                    <p class="hh-lead">I'm <strong>Mohd Saddam</strong>, an MCA candidate focusing on building scalable
+                        apps and refining problem solving through algorithms while leveling up in the MERN stack.</p>
+                    <div class="hh-cta" aria-label="Primary actions">
+                        <a class="btn btn--details" href="projects.html">View Projects</a>
+                        <a class="btn btn--repo" href="assets/Mohd_Saddam_CV.pdf" download>Download CV</a>
+                        <a class="btn btn--contact" href="contact.html" aria-label="Go to contact page">Contact</a>
+                    </div>
+                    <ul class="hh-meta" role="list" aria-label="Key Info">
+                        <li><span class="hh-meta__label">CGPA</span><span class="hh-meta__value">8.665</span></li>
+                        <li><span class="hh-meta__label">Location</span><span class="hh-meta__value">Delhi, India</span>
+                        </li>
+                        <li><span class="hh-meta__label">Focus</span><span class="hh-meta__value">MERN &
+                                Performance</span></li>
+                    </ul>
+                    <div class="hh-social" aria-label="Social links">
+                        <a href="https://github.com" aria-label="GitHub" class="hh-icon" rel="noopener" target="_blank">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path
+                                    d="M12 .7C6  .7 1.5 5.25 1.5 11.3c0 4.68 3.01 8.65 7.2 10.06.53.12.72-.22.72-.5 0-.25-.01-.9-.01-1.76-2.62.57-3.18-1.1-3.18-1.1-.48-1-.12-1.04-.12-1.04 1 .07 1.53 1.06 1.53 1.06 .9 1.55 2.37 1.11 2.95.85.09-.66.35-1.11.63-1.37-2.09-.24-4.29-1.07-4.29-4.75 0-1.05.37-1.91.98-2.58-.1-.24-.43-1.23.09-2.55 0 0 .8-.26 2.64 1a9.2 9.2 0 0 1 2.44-.33 9.2 9.2 0 0 1 2.44.33c1.84-1.26 2.64-1 2.64-1 .52 1.32.19 2.31.1 2.55.61.67.97 1.53.97 2.58 0 3.69-2.21 4.5-4.32 4.74.36.31.68.92.68 1.86 0 1.34-.01 2.42-.01 2.75 0 .28.19.63.73.5 4.18-1.41 7.19-5.38 7.19-10.06C22.5 5.25 18  .7 12 .7Z"
+                                    fill="currentColor" />
+                            </svg>
+                        </a>
+                        <a href="https://linkedin.com" aria-label="LinkedIn" class="hh-icon" rel="noopener"
+                            target="_blank">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path
+                                    d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7.5 0h3.83l.02 1.72c.55-.98 1.95-1.92 3.9-1.92 3.01 0 5.25 1.98 5.25 6.23V21h-4v-5.4c0-1.86-.66-3.12-2.31-3.12-1.26 0-2.01.83-2.34 1.63-.12.27-.12.64-.12 1.02V21h-4V9Z"
+                                    fill="currentColor" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
-                <ul class="hero__meta">
-                    <li><strong>CGPA:</strong> 8.665 (MCA)</br></li>
-                    <li><strong>Location:</strong> Delhi, India</li>
-                </ul>
-            </div>
-            <div class="hero__visual">
-                <img src="assets/img/profile.jpg" alt="Portrait of Mohd Saddam" />
+                <div class="hh-visual" aria-hidden="true">
+                    <div class="hh-visual__frame">
+                        <img src="assets/img/profile.jpg" alt="" loading="lazy" decoding="async" />
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Highlights -->
-        <section id="highlights" class="container section" aria-labelledby="highlights-title">
-            <h2 id="highlights-title">What I Do</h2>
-            <div class="grid grid--3">
-                <article class="card">
-                    <h3>Full‑Stack Development</h3>
-                    <p>Building responsive UIs, RESTful APIs, and integrating databases with a focus on performance and
-                        accessibility.</p>
+        <!-- Highlights (Redesigned) -->
+        <section id="highlights" class="home-strengths container section" aria-labelledby="highlights-title">
+            <div class="section__header">
+                <h2 id="highlights-title">Core Strengths</h2>
+            </div>
+            <div class="strengths-grid" role="list">
+                <article class="strength" role="listitem">
+                    <div class="strength__icon" aria-hidden="true">
+                        <span class="strength__flare"></span>
+                        <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                            <path d="M4 4h6v6H4V4Zm0 10h6v6H4v-6Zm10-10h6v6h-6V4Zm0 10h6v6h-6v-6Z" fill="none"
+                                stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <div class="strength__body">
+                        <h3 class="strength__title">Full‑Stack Delivery</h3>
+                        <p class="strength__desc">From UX polish to API & data layer: cohesive, accessible, maintainable
+                            implementations.</p>
+                        <ul class="strength__points">
+                            <li>Clean component structure</li>
+                            <li>API + DB integration</li>
+                            <li>Accessibility first</li>
+                        </ul>
+                    </div>
                 </article>
-                <article class="card">
-                    <h3>Data Structures & Algorithms</h3>
-                    <p>Writing clean, efficient solutions; comfortable with problem solving and optimizing time/space
-                        complexity.</p>
+                <article class="strength" role="listitem">
+                    <div class="strength__icon" aria-hidden="true">
+                        <span class="strength__flare"></span>
+                        <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                            <path d="M12 3 2 9l10 6 10-6-10-6Zm0 8.5L5 9m7 2.5v9" fill="none" stroke="currentColor"
+                                stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <div class="strength__body">
+                        <h3 class="strength__title">Algorithmic Mindset</h3>
+                        <p class="strength__desc">DSA grounding for efficient, readable solutions under constraints.</p>
+                        <ul class="strength__points">
+                            <li>Complexity aware</li>
+                            <li>Patterns & refactors</li>
+                            <li>Edge‑case coverage</li>
+                        </ul>
+                    </div>
                 </article>
-                <article class="card">
-                    <h3>Security‑Aware Systems</h3>
-                    <p>Experience building dashboards and controls for cybersecurity policy and vulnerability
-                        management.</p>
+                <article class="strength" role="listitem">
+                    <div class="strength__icon" aria-hidden="true">
+                        <span class="strength__flare"></span>
+                        <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                            <path d="M12 2 3 7v10l9 5 9-5V7l-9-5Zm0 0v20M3 7l9 5 9-5M8 4.5l8 4.5" fill="none"
+                                stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <div class="strength__body">
+                        <h3 class="strength__title">Security Awareness</h3>
+                        <p class="strength__desc">Designs mindful of threat surfaces, auditability & principle of least
+                            privilege.</p>
+                        <ul class="strength__points">
+                            <li>Risk assessment</li>
+                            <li>Input hardening</li>
+                            <li>Secure defaults</li>
+                        </ul>
+                    </div>
+                </article>
+                <article class="strength" role="listitem">
+                    <div class="strength__icon" aria-hidden="true">
+                        <span class="strength__flare"></span>
+                        <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" />
+                            <path d="M12 7v5l3 3" fill="none" stroke="currentColor" stroke-width="1.6"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <div class="strength__body">
+                        <h3 class="strength__title">Performance Focus</h3>
+                        <p class="strength__desc">Targeted profiling & tuning that preserves clarity and test surface.
+                        </p>
+                        <ul class="strength__points">
+                            <li>Profiling & metrics</li>
+                            <li>Critical path trims</li>
+                            <li>Bundle discipline</li>
+                        </ul>
+                    </div>
                 </article>
             </div>
+        </section>
+
+        <!-- Tech Snapshot -->
+        <section class="home-stack container section" aria-labelledby="stack-title">
+            <div class="section__header">
+                <h2 id="stack-title">Stack Snapshot</h2>
+            </div>
+            <ul class="stack-cloud" role="list">
+                <li>HTML5</li>
+                <li>CSS3</li>
+                <li>JavaScript</li>
+                <li>React (learning)</li>
+                <li>Node.js</li>
+                <li>Express</li>
+                <li>MongoDB</li>
+                <li>MySQL</li>
+                <li>Python</li>
+                <li>Java</li>
+                <li>Git</li>
+                <li>DSA</li>
+            </ul>
         </section>
 
         <!-- Projects preview (rendered via JS) -->
@@ -75,10 +185,13 @@
             </div>
             <div id="featured-projects" class="grid grid--3"></div>
             <!-- Shared modal for project details on homepage -->
-            <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
-                <div class="modal__dialog" role="document">
-                    <button class="modal__close" aria-label="Close modal">&times;</button>
-                    <div id="modal-content"></div>
+            <div id="modal" class="modal modal--sheet" aria-hidden="true" role="dialog" aria-modal="true">
+                <div class="sheet" role="document">
+                    <header class="sheet__bar">
+                        <h2 id="sheet-title" class="visually-hidden">Project details</h2>
+                        <button class="modal__close" aria-label="Close details">&times;</button>
+                    </header>
+                    <div id="modal-content" class="sheet__scroll" tabindex="0"></div>
                 </div>
                 <div class="modal__backdrop" tabindex="-1"></div>
             </div>

@@ -13,9 +13,23 @@
 
 <body>
     <header id="site-header"></header>
-    <main class="container section">
-        <h1>Certifications</h1>
-        <ul id="cert-list" class="timeline"></ul>
+    <main class="certs-page">
+        <section class="page-hero ph-certs container" aria-labelledby="certs-title">
+            <div class="ph-inner">
+                <div class="ph-decor" aria-hidden="true"></div>
+                <h1 id="certs-title" class="ph-heading">Certifications</h1>
+                <p class="ph-tagline">Verified learning & milestones demonstrating structured growth and applied
+                    capability.</p>
+                <ul class="ph-badges" role="list" aria-label="Certification traits">
+                    <li>Validated</li>
+                    <li>Progress</li>
+                    <li>Credibility</li>
+                </ul>
+            </div>
+        </section>
+        <section class="certs-timeline container" aria-label="Certification timeline">
+            <ul id="cert-list" class="timeline" role="list"></ul>
+        </section>
     </main>
     <footer id="site-footer"></footer>
 

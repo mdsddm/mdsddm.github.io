@@ -40,6 +40,8 @@
     border: 1px solid var(--border);
     backdrop-filter: saturate(170%) blur(3px);
     transition: transform .55s ease, box-shadow .6s ease, border-color .5s ease, background .6s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .card--project::before {
@@ -87,17 +89,527 @@
     z-index: 2;
 }
 
-.card--project .tags {
+/* ================= New Project Sheet ==================== */
+.project-sheet {
     position: relative;
-    z-index: 2;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 1.2rem 1.4rem 1.9rem;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
+    background:
+        linear-gradient(150deg, color-mix(in srgb, var(--bg-soft) 96%, transparent) 0%, color-mix(in srgb, var(--bg) 98%, transparent) 70%);
+    box-shadow: 0 14px 40px -16px rgba(0, 0, 0, .65), 0 0 0 1px rgba(255, 255, 255, .05) inset, 0 0 0 6px rgba(255, 255, 255, .012) inset;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow: hidden;
 }
 
-/* Project image hover animation removed per request */
+.project-sheet::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1.6px;
+    border-radius: inherit;
+    background: linear-gradient(120deg, color-mix(in srgb, var(--accent) 75%, transparent) 0%, color-mix(in srgb, var(--accent-2) 80%, transparent) 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: .55;
+    pointer-events: none;
+}
 
-.card--project:hover {
-    transform: translateY(-8px) !important;
-    box-shadow: 0 18px 46px -10px rgba(0, 0, 0, .6), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
-    border-color: rgba(255, 255, 255, 0.08);
+.project-sheet::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+        radial-gradient(circle at 20% 18%, color-mix(in srgb, var(--accent) 32%, transparent) 0%, transparent 55%),
+        radial-gradient(circle at 82% 82%, color-mix(in srgb, var(--accent-2) 34%, transparent) 0%, transparent 65%),
+        linear-gradient(140deg, rgba(255, 255, 255, .06), transparent 70%);
+    opacity: .25;
+    pointer-events: none;
+}
+
+/* Hover / focus elevation */
+.project-sheet:hover,
+.project-sheet:focus-within {
+    box-shadow: 0 18px 52px -20px rgba(0, 0, 0, .75), 0 0 0 1px rgba(255, 255, 255, .07) inset, 0 0 0 8px rgba(255, 255, 255, .015) inset;
+}
+
+.project-sheet:hover::before {
+    opacity: .75;
+}
+
+.project-sheet:hover::after {
+    opacity: .32;
+}
+
+.project-sheet__head {
+    display: flex;
+    gap: 1.4rem;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.project-sheet__media {
+    position: relative;
+    flex: 0 0 240px;
+    border-radius: 22px;
+    overflow: hidden;
+    background: var(--card);
+    min-height: 170px;
+    box-shadow: 0 4px 14px -6px rgba(0, 0, 0, .6), 0 0 0 1px rgba(255, 255, 255, .04) inset;
+}
+
+.project-sheet__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(.78) saturate(115%);
+    transition: transform .9s cubic-bezier(.3, .8, .3, 1);
+}
+
+.project-sheet__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, rgba(0, 0, 0, .75) 0%, rgba(0, 0, 0, .25) 55%, rgba(0, 0, 0, .85) 100%), radial-gradient(circle at 22% 25%, color-mix(in srgb, var(--accent) 28%, transparent), transparent 70%);
+    mix-blend-mode: normal;
+}
+
+.project-sheet__media:hover img {
+    transform: scale(1.05);
+}
+
+.project-sheet__title {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 260px;
+}
+
+.project-sheet__heading {
+    margin: 0 0 .5rem;
+    font-size: clamp(1.7rem, 2.2vw + .6rem, 2.55rem);
+    letter-spacing: .7px;
+    background: linear-gradient(120deg, var(--accent) 0%, var(--accent-2) 72%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.project-sheet__tagline {
+    margin: 0;
+    font-size: 1.02rem;
+    font-weight: 600;
+    line-height: 1.55;
+    color: color-mix(in srgb, var(--text) 82%, white);
+    text-wrap: balance;
+}
+
+.project-sheet__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
+}
+
+.project-sheet__overview {
+    font-size: 1.02rem;
+    line-height: 1.62;
+    color: color-mix(in srgb, var(--text) 94%, white);
+    letter-spacing: .25px;
+    margin: 0;
+}
+
+.project-sheet__block {
+    display: flex;
+    flex-direction: column;
+    gap: .85rem;
+}
+
+.project-sheet__subheading {
+    margin: 0;
+    font-size: .85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--accent-2) 75%, var(--text));
+}
+
+.project-sheet__features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .85rem;
+}
+
+.project-sheet__features .ps-feature {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    position: relative;
+}
+
+.project-sheet__features .ps-feature::marker {
+    content: "";
+}
+
+/* Safety: if any user agent marker slips through, hide it */
+.project-sheet__features {
+    list-style-type: none !important;
+}
+
+/* Prevent accidental inherited bullets via generic rules */
+#modal-content li.ps-feature::before {
+    content: none !important;
+}
+
+/* Consolidated feature line styling */
+.ps-feature {
+    --pf-bg: linear-gradient(90deg, color-mix(in srgb, var(--accent) 10%, transparent), color-mix(in srgb, var(--accent-2) 10%, transparent));
+    display: flex;
+    gap: .65rem;
+    align-items: flex-start;
+    font-size: .98rem;
+    line-height: 1.55;
+    color: color-mix(in srgb, var(--text) 88%, white);
+    position: relative;
+    padding: .35rem .55rem .35rem .5rem;
+    margin: 0;
+    border-radius: 10px;
+    transition: color .45s ease, transform .55s cubic-bezier(.25, .8, .25, 1), filter .6s ease;
+    will-change: transform, color;
+    isolation: isolate;
+}
+
+.ps-feature::before,
+.ps-feature::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+}
+
+/* Soft gradient fill grows in */
+.ps-feature::before {
+    background: var(--pf-bg);
+    transform: scaleX(0.25);
+    transform-origin: left center;
+    filter: saturate(140%);
+    transition: transform .7s cubic-bezier(.25, .8, .25, 1), opacity .5s ease;
+}
+
+/* Sheen sweep */
+.ps-feature::after {
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0) 15%, rgba(255, 255, 255, .28) 45%, rgba(255, 255, 255, 0) 70%);
+    mix-blend-mode: overlay;
+    transform: translateX(-120%);
+    transition: transform 1s cubic-bezier(.25, .8, .25, 1), opacity .6s ease;
+}
+
+.ps-feature:hover::before {
+    opacity: 1;
+    transform: scaleX(1);
+}
+
+.ps-feature:hover::after {
+    opacity: .85;
+    transform: translateX(120%);
+}
+
+.ps-feature__icon {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, .04);
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 5px color-mix(in srgb, var(--accent) 55%, transparent));
+    margin-top: .38em;
+}
+
+.ps-feature:hover {
+    color: color-mix(in srgb, var(--text) 96%, white);
+    transform: translateX(4px) translateZ(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ps-feature,
+    .ps-feature::before,
+    .ps-feature::after {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    .ps-feature:hover {
+        transform: none;
+    }
+}
+
+.ps-feature:hover .ps-feature__icon {
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 70%, transparent));
+}
+
+.project-sheet__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .55rem;
+}
+
+.ps-chip {
+    background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 25%, transparent), color-mix(in srgb, var(--accent-2) 30%, transparent));
+    border: 1px solid color-mix(in srgb, var(--accent-2) 55%, var(--border));
+    padding: .45rem .75rem;
+    font-size: .72rem;
+    font-weight: 500;
+    letter-spacing: .4px;
+    border-radius: 999px;
+    position: relative;
+    overflow: hidden;
+    transition: background .5s, color .5s;
+}
+
+.ps-chip::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .22), transparent 60%);
+    opacity: 0;
+    transition: opacity .5s;
+}
+
+.ps-chip:hover::after {
+    opacity: 1;
+}
+
+.ps-chip:hover {
+    background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 40%, transparent), color-mix(in srgb, var(--accent-2) 42%, transparent));
+    box-shadow: 0 4px 16px -6px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, .06) inset;
+}
+
+.project-sheet__actions {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+}
+
+.project-sheet__actions .btn {
+    flex: 0 0 auto;
+}
+
+/* Light theme adjustments */
+:root.light .project-sheet {
+    background: linear-gradient(150deg, color-mix(in srgb, #ffffff 94%, var(--accent) 3%) 0%, color-mix(in srgb, #ffffff 97%, var(--accent-2) 4%) 70%);
+    box-shadow: 0 16px 46px -18px rgba(0, 0, 0, .3), 0 0 0 1px rgba(255, 255, 255, .6) inset, 0 0 0 6px rgba(255, 255, 255, .12) inset;
+}
+
+:root.light .project-sheet::before {
+    opacity: .7;
+}
+
+:root.light .project-sheet::after {
+    opacity: .32;
+}
+
+:root.light .project-sheet__tagline {
+    color: color-mix(in srgb, var(--text) 90%, #000);
+}
+
+:root.light .ps-feature {
+    color: color-mix(in srgb, var(--text) 86%, #000);
+}
+
+.card--project .project-body {
+    position: relative;
+    margin-top: .85rem;
+    padding: .2rem .1rem 0;
+    transition: transform .6s cubic-bezier(.25, .8, .25, 1);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.card--project:hover .project-body {
+    transform: translateY(-2px);
+}
+
+.card--project .project-body::before {
+    content: "";
+    position: absolute;
+    inset: -6% -4%;
+    background: radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--accent) 35%, transparent), transparent 70%), linear-gradient(125deg, color-mix(in srgb, var(--accent) 18%, transparent), color-mix(in srgb, var(--accent-2) 20%, transparent));
+    /* Removed blur to avoid any perception of overall sheet blur */
+    filter: none;
+    opacity: .35;
+    z-index: 0;
+    transition: opacity .7s ease;
+    border-radius: 20px;
+}
+
+/* Force crisp rendering for project-sheet (defensive against inherited filters) */
+.project-sheet,
+.project-sheet * {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.project-sheet {
+    isolation: isolate;
+}
+
+.project-sheet img {
+    image-rendering: auto;
+}
+
+/* Optional debug outline (remove later) */
+/* .project-sheet { outline:2px solid magenta; } */
+
+.card--project:hover .project-body::before {
+    opacity: .55;
+}
+
+.card--project .project-title {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 80%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 1.1rem;
+    letter-spacing: .5px;
+    margin-bottom: .4rem;
+}
+
+/* Animated gradient sweep on card title */
+.card--project .project-title {
+    background-size: 200% 100%;
+    transition: background-position .85s cubic-bezier(.25, .8, .25, 1), letter-spacing .55s ease;
+}
+
+.card--project:hover .project-title {
+    background-position: 100% 0;
+    letter-spacing: .65px;
+}
+
+.card--project .project-desc {
+    position: relative;
+    z-index: 2;
+    font-size: .9rem;
+    line-height: 1.5;
+    color: color-mix(in srgb, var(--text) 92%, white);
+    margin: 0 0 .55rem;
+    max-height: 5.2em;
+    min-height: 5.2em;
+    /* unify description box height across cards */
+    overflow: hidden;
+    transition: max-height .7s ease, color .4s ease;
+}
+
+.card--project:hover .project-desc {
+    max-height: 14em;
+}
+
+.card--project .tags {
+    margin-top: -.15rem;
+    margin-bottom: .55rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem;
+}
+
+.card--project .project-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    position: relative;
+    z-index: 2;
+    margin-top: auto;
+    /* push actions to bottom for equal card heights */
+}
+
+/* Subtle stagger on hover */
+.card--project:hover .project-actions .btn {
+    animation: projBtnIn .55s cubic-bezier(.25, .8, .25, 1) both;
+}
+
+.card--project:hover .project-actions .btn:nth-child(2) {
+    animation-delay: .05s;
+}
+
+.card--project:hover .project-actions .btn:nth-child(3) {
+    animation-delay: .1s;
+}
+
+/* Repo button styled like Details button */
+.btn--repo {
+    background: linear-gradient(120deg, var(--accent-2) 0%, var(--accent) 90%);
+    color: #fff;
+    border: 1px solid color-mix(in srgb, var(--accent-2) 55%, var(--accent) 45%);
+    box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--accent-2) 60%, transparent), 0 0 0 1px rgba(255, 255, 255, .06) inset;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform .5s cubic-bezier(.25, .8, .25, 1), box-shadow .55s ease, background .6s, filter .6s ease;
+    text-decoration: none !important;
+}
+
+.btn--repo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, .35), transparent 60%);
+    mix-blend-mode: overlay;
+    opacity: 0;
+    transition: opacity .7s;
+}
+
+.btn--repo:hover,
+.btn--repo:focus-visible {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px -10px color-mix(in srgb, var(--accent-2) 65%, transparent), 0 0 0 1px rgba(255, 255, 255, .08) inset;
+    filter: brightness(1.05) saturate(115%);
+    text-decoration: none !important;
+}
+
+.btn--repo:hover::after,
+.btn--repo:focus-visible::after {
+    opacity: .9;
+}
+
+.btn--repo:active {
+    transform: translateY(-2px);
+}
+
+:root.light .btn--repo {
+    box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--accent-2) 55%, transparent), 0 0 0 1px rgba(255, 255, 255, .55) inset;
+}
+
+:root.light .btn--repo:hover {
+    box-shadow: 0 16px 34px -12px color-mix(in srgb, var(--accent-2) 65%, transparent), 0 0 0 1px rgba(255, 255, 255, .65) inset;
+}
+
+@keyframes projBtnIn {
+    from {
+        transform: translateY(6px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 /* Focus-visible enhancement for accessibility */
@@ -124,6 +636,97 @@
 .badge:hover {
     background: color-mix(in srgb, var(--accent-2) 40%, transparent);
     transform: translateY(-2px);
+}
+
+/* Quick Links styling (About page) */
+.quick-links {
+    list-style: none;
+    margin: .25rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .55rem;
+}
+
+.quick-links li {
+    position: relative;
+}
+
+.quick-links a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    padding: .6rem .85rem .62rem .85rem;
+    border: 1px solid color-mix(in srgb, var(--accent-2) 25%, var(--border));
+    border-radius: 14px;
+    background: linear-gradient(130deg, color-mix(in srgb, var(--accent) 12%, transparent), color-mix(in srgb, var(--accent-2) 12%, transparent));
+    text-decoration: none;
+    font-weight: 500;
+    color: color-mix(in srgb, var(--text) 92%, white);
+    letter-spacing: .3px;
+    backdrop-filter: blur(4px) saturate(140%);
+    -webkit-backdrop-filter: blur(4px) saturate(140%);
+    overflow: hidden;
+    transition: background .55s ease, border-color .55s ease, transform .5s cubic-bezier(.25, .8, .25, 1), box-shadow .55s ease, color .45s ease;
+}
+
+.quick-links a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 25% 30%, rgba(255, 255, 255, .22), transparent 60%);
+    opacity: 0;
+    mix-blend-mode: overlay;
+    transition: opacity .6s ease;
+}
+
+.quick-links a::after {
+    content: "→";
+    font-size: .95rem;
+    margin-left: auto;
+    color: color-mix(in srgb, var(--accent-2) 80%, var(--accent));
+    transition: transform .6s cubic-bezier(.25, .8, .25, 1), color .45s ease;
+}
+
+.quick-links a:hover,
+.quick-links a:focus-visible {
+    transform: translateY(-3px);
+    background: linear-gradient(130deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent-2) 24%, transparent));
+    border-color: color-mix(in srgb, var(--accent-2) 55%, var(--accent) 45%);
+    box-shadow: 0 10px 26px -10px color-mix(in srgb, var(--accent-2) 55%, transparent), 0 0 0 1px rgba(255, 255, 255, .07) inset;
+    color: #fff;
+}
+
+.quick-links a:hover::before,
+.quick-links a:focus-visible::before {
+    opacity: .95;
+}
+
+.quick-links a:hover::after,
+.quick-links a:focus-visible::after {
+    transform: translateX(4px);
+    color: color-mix(in srgb, var(--accent-2) 90%, #ffffff);
+}
+
+.quick-links a:active {
+    transform: translateY(-1px);
+}
+
+:root.light .quick-links a {
+    /* Slightly tinted glass card for better contrast on pure white panels */
+    background: linear-gradient(140deg,
+            color-mix(in srgb, #ffffff 85%, var(--accent) 15%) 0%,
+            color-mix(in srgb, #ffffff 82%, var(--accent-2) 18%) 100%);
+    color: color-mix(in srgb, var(--text) 88%, #0a0a0a);
+    border: 1px solid color-mix(in srgb, var(--accent-2) 55%, var(--accent) 45%);
+    box-shadow: 0 4px 14px -8px rgba(0, 0, 0, .22), 0 0 0 1px rgba(255, 255, 255, .7) inset;
+}
+
+:root.light .quick-links a:hover,
+:root.light .quick-links a:focus-visible {
+    box-shadow: 0 14px 30px -12px rgba(0, 0, 0, .3), 0 0 0 1px rgba(255, 255, 255, .85) inset;
+    color: color-mix(in srgb, var(--text) 96%, #000);
 }
 
 .timeline {
@@ -169,28 +772,107 @@ textarea:focus {
     border-color: transparent;
 }
 
+/* Base modal container reused for project sheet */
 .modal {
     position: fixed;
     inset: 0;
-    display: none;
+    display: block;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .45s ease;
+    z-index: 1000;
 }
 
 .modal[aria-hidden="false"] {
-    display: grid;
-    place-items: center;
+    opacity: 1;
+    pointer-events: auto;
 }
 
-.modal__dialog {
-    background: #000;
-    /* full black as requested */
-    border: 1px solid #111;
-    /* subtle border */
-    border-radius: 14px;
-    width: min(900px, 92%);
-    max-height: 82vh;
+body.sheet-open {
+    overflow: hidden;
+}
+
+/* Full-screen sheet variant */
+.modal--sheet .sheet {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--bg-soft) 94%, transparent), var(--bg) 70%);
+    /* Remove backdrop blur entirely to prevent any perceived text softness */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, .7), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: sheetIn .6s cubic-bezier(.4, .8, .3, 1) forwards;
+    z-index: 1;
+}
+
+/* Light theme sheet refinements */
+:root.light .modal--sheet .sheet {
+    background:
+        radial-gradient(circle at 18% 20%, color-mix(in srgb, var(--accent) 22%, transparent) 0%, transparent 65%),
+        radial-gradient(circle at 82% 80%, color-mix(in srgb, var(--accent-2) 20%, transparent) 0%, transparent 65%),
+        linear-gradient(135deg, color-mix(in srgb, #ffffff 92%, var(--accent) 3%) 0%, color-mix(in srgb, #ffffff 95%, var(--accent-2) 5%) 70%);
+    box-shadow: 0 14px 46px -18px rgba(0, 0, 0, .28), 0 0 0 1px rgba(255, 255, 255, .6) inset;
+}
+
+:root.light #modal-content h2 {
+    background: linear-gradient(120deg, var(--accent) 0%, var(--accent-2) 80%);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+:root.light #modal-content p {
+    color: color-mix(in srgb, var(--text) 92%, #000);
+}
+
+:root.light .features li {
+    color: color-mix(in srgb, var(--text) 88%, #000);
+}
+
+:root.light .features li .dot {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, .08);
+}
+
+.sheet__bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: .6rem .85rem;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 16%, transparent), color-mix(in srgb, var(--accent-2) 18%, transparent));
+    box-shadow: 0 1px 0 0 rgba(255, 255, 255, .05) inset, 0 2px 6px -2px rgba(0, 0, 0, .6);
+}
+
+.sheet__scroll {
+    flex: 1;
     overflow-y: auto;
-    padding: 1.35rem 1.55rem 1.55rem;
-    box-shadow: 0 20px 50px -15px rgba(0, 0, 0, .75), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    padding: 1.35rem clamp(.9rem, 2vw, 2rem) 2.4rem;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@keyframes sheetIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Modal content readability */
@@ -238,9 +920,335 @@ textarea:focus {
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04);
 }
 
-#modal-content strong {
-    color: var(--accent);
+/* Duplicate list styles for :not(.ps-feature) removed; generic li covers all, ps-feature suppresses marker separately */
+
+:root.light .project-sheet__overview {
+    color: color-mix(in srgb, var(--text) 92%, #000);
+}
+
+:root.light .ps-feature__icon {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, .08);
+    filter: drop-shadow(0 0 4px color-mix(in srgb, var(--accent) 45%, transparent));
+}
+
+:root.light #modal-content .project-sheet__overview,
+:root.light #modal-content .project-sheet__body p,
+:root.light #modal-content .project-sheet__features .ps-feature {
+    color: color-mix(in srgb, var(--text) 92%, #000);
+}
+
+
+/* ================= Close Button (Minimal Redesign Override) ================= */
+/* A simpler, more refined style replacing the experimental glass block above. */
+.modal__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(145deg, color-mix(in srgb, var(--bg-soft) 75%, transparent), color-mix(in srgb, var(--bg) 88%, transparent));
+    border: 1px solid color-mix(in srgb, var(--accent-2) 55%, var(--border));
+    box-shadow: 0 4px 14px -6px rgba(0, 0, 0, .65), 0 0 0 1px rgba(255, 255, 255, .05) inset;
+    font-size: 1.55rem;
+    line-height: 1;
     font-weight: 600;
+    cursor: pointer;
+    background-clip: padding-box;
+    -webkit-font-smoothing: antialiased;
+    transition: transform .45s cubic-bezier(.25, .8, .25, 1), box-shadow .5s ease, border-color .5s ease, background .6s ease, filter .5s ease, color .45s ease;
+    color: color-mix(in srgb, var(--accent-2) 80%, #ffffff);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, .4);
+}
+
+/* Remove earlier pseudo-element cross implementation */
+.modal__close::before,
+.modal__close::after {
+    content: none !important;
+}
+
+.modal__close:hover,
+.modal__close:focus-visible {
+    transform: translateY(-3px) scale(1.06);
+    box-shadow: 0 10px 26px -10px rgba(0, 0, 0, .75), 0 0 0 1px rgba(255, 255, 255, .08) inset, 0 0 0 4px rgba(255, 255, 255, .02) inset;
+    filter: brightness(1.05) saturate(120%);
+    color: color-mix(in srgb, var(--accent) 85%, #ffffff);
+}
+
+.modal__close:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+.modal__close:focus-visible {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 3px;
+}
+
+:root.light .modal__close {
+    background: linear-gradient(145deg, color-mix(in srgb, #ffffff 90%, var(--accent) 6%), color-mix(in srgb, #ffffff 94%, var(--accent-2) 8%));
+    border: 1px solid color-mix(in srgb, var(--accent-2) 55%, var(--border));
+    box-shadow: 0 4px 14px -6px rgba(0, 0, 0, .35), 0 0 0 1px rgba(255, 255, 255, .5) inset;
+    color: color-mix(in srgb, var(--accent-2) 65%, #222);
+    text-shadow: 0 1px 2px rgba(255, 255, 255, .6), 0 0 0 rgba(0, 0, 0, 0);
+}
+
+:root.light .modal__close:hover,
+:root.light .modal__close:focus-visible {
+    box-shadow: 0 12px 28px -12px rgba(0, 0, 0, .4), 0 0 0 1px rgba(255, 255, 255, .65) inset;
+    color: color-mix(in srgb, var(--accent) 70%, #111);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .modal__close {
+        transition: none;
+    }
+
+    .modal__close:hover,
+    .modal__close:focus-visible {
+        transform: none;
+    }
+}
+
+/* ================= Mobile Close Button / Sheet Adjustments ================= */
+@media (max-width: 680px) {
+    .modal__close {
+        position: static;
+        /* participate in flex layout inside sheet__bar */
+        top: auto;
+        right: auto;
+        width: 40px;
+        height: 40px;
+        font-size: 1.35rem;
+        margin-left: auto;
+        /* push to right */
+        transform: none !important;
+        /* avoid accidental overlap jitter */
+    margin-right: .15rem; /* subtle breathing room from edge */
+    margin-top: .1rem;
+    }
+
+    .sheet__bar {
+    padding: .7rem .95rem calc(.65rem + env(safe-area-inset-top, 0px)); /* increase tap comfort */
+        gap: .5rem;
+        justify-content: flex-end;
+    }
+
+    /* Ensure scroll area doesn't tuck under an absolutely placed button (now static) */
+    .sheet__scroll {
+                padding-top: 1.15rem;
+    }
+}
+
+/* Compact viewport modal sizing: shrink sheet to 90% width/height for breathing space */
+@media (max-width: 680px) {
+    .modal--sheet .sheet {
+        inset: 5% 5% !important; /* 90% width/height (top/right/bottom/left) */
+        width: 90%;
+        height: 90%;
+        border-radius: 26px; /* visible rounding now that it's not fullscreen */
+    }
+    .modal--sheet .sheet::after, .modal--sheet .sheet::before { border-radius: inherit; }
+    .sheet__bar { border-top-left-radius: inherit; border-top-right-radius: inherit; }
+    .sheet__scroll { border-bottom-left-radius: inherit; border-bottom-right-radius: inherit; }
+}
+/* Tablet sizing (apply same 10% reduction): 681px–980px */
+@media (min-width: 681px) and (max-width: 980px) {
+    .modal--sheet .sheet {
+        inset: 5% 5% !important;
+        width: 90%;
+        height: 90%;
+        border-radius: 30px;
+    }
+    .modal--sheet .sheet::after, .modal--sheet .sheet::before { border-radius: inherit; }
+    .sheet__bar { padding: .75rem 1.05rem; border-top-left-radius: inherit; border-top-right-radius: inherit; }
+    .sheet__scroll { border-bottom-left-radius: inherit; border-bottom-right-radius: inherit; }
+    /* Make close button part of flex flow to avoid overlap */
+    .modal__close {
+        position: static;
+        top: auto; right: auto;
+        margin-left: auto;
+        margin-right: .25rem;
+        width: 44px; height: 44px;
+        transform: none !important;
+    }
+}
+
+.features li .dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, .04);
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 60%, transparent));
+}
+
+.features li span:last-child {
+    flex: 1;
+}
+
+.stack__label {
+    margin: 0 0 .35rem;
+    font-size: .85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--accent-2) 75%, var(--text));
+}
+
+.stack__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+.tech-chip {
+    background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 25%, transparent), color-mix(in srgb, var(--accent-2) 30%, transparent));
+    border: 1px solid color-mix(in srgb, var(--accent-2) 55%, var(--border));
+    padding: .4rem .7rem;
+    font-size: .75rem;
+    font-weight: 500;
+    letter-spacing: .4px;
+    border-radius: 999px;
+    backdrop-filter: saturate(160%) blur(4px);
+    box-shadow: 0 2px 6px -2px rgba(0, 0, 0, .55);
+    position: relative;
+    overflow: hidden;
+}
+
+.tech-chip::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .22), transparent 60%);
+    opacity: 0;
+    transition: opacity .5s;
+}
+
+.tech-chip:hover::after {
+    opacity: 1;
+}
+
+.actions {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+    padding-top: .25rem;
+}
+
+.actions .btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.actions .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, color-mix(in srgb, var(--accent) 35%, transparent), color-mix(in srgb, var(--accent-2) 35%, transparent));
+    opacity: 0;
+    transition: opacity .45s;
+}
+
+.actions .btn:hover::before {
+    opacity: .35;
+}
+
+/* Stylish Details button */
+.btn--details {
+    background: linear-gradient(120deg, var(--accent) 0%, var(--accent-2) 90%);
+    color: #fff;
+    border: 1px solid color-mix(in srgb, var(--accent-2) 55%, var(--accent) 45%);
+    box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--accent-2) 60%, transparent), 0 0 0 1px rgba(255, 255, 255, .06) inset;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform .5s cubic-bezier(.25, .8, .25, 1), box-shadow .55s ease, background .6s;
+}
+
+.btn--details::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, .35), transparent 60%);
+    mix-blend-mode: overlay;
+    opacity: 0;
+    transition: opacity .7s;
+}
+
+.btn--details:hover,
+.btn--details:focus-visible {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px -10px color-mix(in srgb, var(--accent-2) 65%, transparent), 0 0 0 1px rgba(255, 255, 255, .08) inset;
+}
+
+.btn--details:hover::after,
+.btn--details:focus-visible::after {
+    opacity: .9;
+}
+
+.btn--details:active {
+    transform: translateY(-2px);
+}
+
+/* Light theme tweak */
+:root.light .btn--details {
+    box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--accent-2) 55%, transparent), 0 0 0 1px rgba(255, 255, 255, .55) inset;
+}
+
+:root.light .btn--details:hover {
+    box-shadow: 0 16px 34px -12px color-mix(in srgb, var(--accent-2) 65%, transparent), 0 0 0 1px rgba(255, 255, 255, .65) inset;
+}
+
+/* Entrance animations */
+@media (prefers-reduced-motion: no-preference) {
+    .project-detail .pd-hero {
+        animation: pdHeroIn .85s cubic-bezier(.25, .8, .25, 1);
+    }
+
+    .project-detail .pd-body>* {
+        opacity: 0;
+        transform: translateY(14px);
+        animation: pdFadeUp .7s forwards;
+    }
+
+    .project-detail .pd-body>*:nth-child(1) {
+        animation-delay: .15s;
+    }
+
+    .project-detail .pd-body>*:nth-child(2) {
+        animation-delay: .25s;
+    }
+
+    .project-detail .pd-body>*:nth-child(3) {
+        animation-delay: .35s;
+    }
+
+    .project-detail .pd-body>*:nth-child(4) {
+        animation-delay: .45s;
+    }
+}
+
+@keyframes pdHeroIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pdFadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Subtle highlight blocks (auto applied if developer wraps spans) */
@@ -258,16 +1266,72 @@ section[aria-labelledby="projects-title"] {
 .modal__backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.55);
+    background: rgba(0, 0, 0, .72);
+    /* remove gradient + blur to stop text softening */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    z-index: 0;
 }
 
-.modal__close {
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    border: none;
-    background: transparent;
-    font-size: 1.6rem;
-    color: var(--muted);
-    cursor: pointer;
+/* Remove legacy override: close button already styled above */
+
+/* ===================================================================== */
+/* Mobile Optimization & Performance Enhancements                        */
+/* ===================================================================== */
+/* Use content-visibility to skip rendering off-screen heavy blocks on   */
+/* mobile browsers that support it (Chrome, Edge, etc.). Fallback is     */
+/* harmless for others. contain-intrinsic-size provides a placeholder.   */
+.card, .feature-card, .strength, .skill-group, .timeline li, .contact-card, .project-sheet, .about-feature, .strengths-grid, .projects-grid, .skills-groups {
+    content-visibility: auto;
+    contain-intrinsic-size: 400px; /* reasonable average block height */
+}
+
+@media (max-width: 680px) {
+    /* Tighter, more consistent spacing & friendlier tap areas */
+    .card, .feature-card, .strength, .skill-group, .contact-card, .timeline li { padding: .85rem .9rem 1rem; }
+    .card--project { padding: .85rem .85rem 1rem; }
+    .card--project .project-desc { max-height: 4.4em; min-height: 4.4em; }
+    .projects-grid { gap: 1.1rem; }
+    .skills-groups { gap: 1.1rem; }
+    .strengths-grid { gap: 1.1rem; }
+    .project-sheet { padding: 1rem 1rem 1.4rem; border-radius: 22px; }
+    .project-sheet__media { flex: 1 1 100%; min-height: 160px; }
+    .project-sheet__head { flex-direction: column; gap: 1rem; }
+    .project-sheet__heading { font-size: clamp(1.5rem, 7vw, 2.1rem); }
+    .project-sheet__overview { font-size: .98rem; }
+    .ps-feature { font-size: .95rem; }
+    .project-sheet__actions .btn { flex: 1 1 auto; min-width: 140px; }
+    .quick-links a { padding: .65rem .85rem; }
+    .btn, .btn--details, .btn--repo, .btn--contact { min-height: 44px; }
+    .modal--sheet .sheet { animation-duration: .4s; }
+}
+
+@media (max-width: 480px) {
+    /* Ultra small devices adjustments */
+    .projects-grid, .skills-groups, .strengths-grid { gap: .9rem; }
+    .card--project img.thumb { aspect-ratio: 16 / 10.2; }
+    .card--project .project-title { font-size: 1rem; }
+    .card--project .project-desc { font-size: .82rem; line-height: 1.45; }
+    .ps-chip { font-size: .65rem; padding: .4rem .6rem; }
+    .badge { font-size: .55rem; padding: .25rem .45rem; }
+    .project-sheet { padding: .9rem .85rem 1.2rem; }
+    .sheet__scroll { padding: 1rem .85rem 1.6rem; }
+}
+
+/* Touch optimization: when html.touch class present, flatten some hover transforms for smoother scrolling */
+html.touch .card:hover,
+html.touch .feature-card:hover,
+html.touch .strength:hover,
+html.touch .projects-page .card--project:hover,
+html.touch .skill-group:hover,
+html.touch .timeline li:hover,
+html.touch .contact-card:hover { transform: none; }
+
+html.touch .btn--details:hover,
+html.touch .btn--repo:hover,
+html.touch .btn--contact:hover { transform: none; }
+
+/* Reduce large shadow cost on very small devices */
+@media (max-width: 420px) {
+  .card, .feature-card, .strength, .skill-group, .contact-card, .timeline li, .card--project { box-shadow: 0 6px 18px -10px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.05) inset; }
 }

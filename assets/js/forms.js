@@ -1,8 +1,9 @@
 /* Contact form validation + UX (no backend; ready to plug APIs like Formspree) */
 
-document.addEventListener("DOMContentLoaded", () => {
+function initContactForm() {
     const form = document.getElementById("contact-form");
-    if (!form) return;
+    if (!form || form.dataset.bound) return; // guard re-init
+    form.dataset.bound = 'true';
     const endpoint = form.dataset.endpoint; // Formspree endpoint
     const sendBtn = document.getElementById('send-btn');
     const statusEl = document.getElementById("form-success");
@@ -43,4 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
             statusEl && statusEl.focus();
         } finally { disable(false); }
     });
-});
+}
+
+document.addEventListener("DOMContentLoaded", initContactForm);
