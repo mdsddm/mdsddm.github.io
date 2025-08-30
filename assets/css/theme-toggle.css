@@ -32,11 +32,28 @@
 }
 
 #theme-toggle .icon {
-    transition: opacity .28s ease, transform .32s cubic-bezier(.4,.8,.3,1);
+    transition: opacity .28s ease, transform .32s cubic-bezier(.4, .8, .3, 1);
     display: inline-block;
     will-change: transform, opacity;
 }
 
 /* micro keyframe for crisp pop */
-@keyframes iconPop { 0% { transform: scale(.55) rotate(-20deg); opacity:0; } 60% { transform: scale(1.15) rotate(6deg); opacity:1; } 100% { transform: scale(1) rotate(0deg); } }
-#theme-toggle .icon.swap { animation: iconPop .42s cubic-bezier(.55,1.4,.4,1) both; }
+@keyframes iconPop {
+    0% {
+        transform: scale(.55) rotate(-20deg);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.15) rotate(6deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+#theme-toggle .icon.swap {
+    animation: iconPop .42s cubic-bezier(.55, 1.4, .4, 1) both;
+}

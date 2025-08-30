@@ -1025,34 +1025,51 @@ body.sheet-open {
         /* push to right */
         transform: none !important;
         /* avoid accidental overlap jitter */
-    margin-right: .15rem; /* subtle breathing room from edge */
-    margin-top: .1rem;
+        margin-right: .15rem;
+        /* subtle breathing room from edge */
+        margin-top: .1rem;
     }
 
     .sheet__bar {
-    padding: .7rem .95rem calc(.65rem + env(safe-area-inset-top, 0px)); /* increase tap comfort */
+        padding: .7rem .95rem calc(.65rem + env(safe-area-inset-top, 0px));
+        /* increase tap comfort */
         gap: .5rem;
         justify-content: flex-end;
     }
 
     /* Ensure scroll area doesn't tuck under an absolutely placed button (now static) */
     .sheet__scroll {
-                padding-top: 1.15rem;
+        padding-top: 1.15rem;
     }
 }
 
 /* Compact viewport modal sizing: shrink sheet to 90% width/height for breathing space */
 @media (max-width: 680px) {
     .modal--sheet .sheet {
-        inset: 5% 5% !important; /* 90% width/height (top/right/bottom/left) */
+        inset: 5% 5% !important;
+        /* 90% width/height (top/right/bottom/left) */
         width: 90%;
         height: 90%;
-        border-radius: 26px; /* visible rounding now that it's not fullscreen */
+        border-radius: 26px;
+        /* visible rounding now that it's not fullscreen */
     }
-    .modal--sheet .sheet::after, .modal--sheet .sheet::before { border-radius: inherit; }
-    .sheet__bar { border-top-left-radius: inherit; border-top-right-radius: inherit; }
-    .sheet__scroll { border-bottom-left-radius: inherit; border-bottom-right-radius: inherit; }
+
+    .modal--sheet .sheet::after,
+    .modal--sheet .sheet::before {
+        border-radius: inherit;
+    }
+
+    .sheet__bar {
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+    }
+
+    .sheet__scroll {
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit;
+    }
 }
+
 /* Tablet sizing (apply same 10% reduction): 681px–980px */
 @media (min-width: 681px) and (max-width: 980px) {
     .modal--sheet .sheet {
@@ -1061,16 +1078,32 @@ body.sheet-open {
         height: 90%;
         border-radius: 30px;
     }
-    .modal--sheet .sheet::after, .modal--sheet .sheet::before { border-radius: inherit; }
-    .sheet__bar { padding: .75rem 1.05rem; border-top-left-radius: inherit; border-top-right-radius: inherit; }
-    .sheet__scroll { border-bottom-left-radius: inherit; border-bottom-right-radius: inherit; }
+
+    .modal--sheet .sheet::after,
+    .modal--sheet .sheet::before {
+        border-radius: inherit;
+    }
+
+    .sheet__bar {
+        padding: .75rem 1.05rem;
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+    }
+
+    .sheet__scroll {
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit;
+    }
+
     /* Make close button part of flex flow to avoid overlap */
     .modal__close {
         position: static;
-        top: auto; right: auto;
+        top: auto;
+        right: auto;
         margin-left: auto;
         margin-right: .25rem;
-        width: 44px; height: 44px;
+        width: 44px;
+        height: 44px;
         transform: none !important;
     }
 }
@@ -1281,41 +1314,142 @@ section[aria-labelledby="projects-title"] {
 /* Use content-visibility to skip rendering off-screen heavy blocks on   */
 /* mobile browsers that support it (Chrome, Edge, etc.). Fallback is     */
 /* harmless for others. contain-intrinsic-size provides a placeholder.   */
-.card, .feature-card, .strength, .skill-group, .timeline li, .contact-card, .project-sheet, .about-feature, .strengths-grid, .projects-grid, .skills-groups {
+.card,
+.feature-card,
+.strength,
+.skill-group,
+.timeline li,
+.contact-card,
+.project-sheet,
+.about-feature,
+.strengths-grid,
+.projects-grid,
+.skills-groups {
     content-visibility: auto;
-    contain-intrinsic-size: 400px; /* reasonable average block height */
+    contain-intrinsic-size: 400px;
+    /* reasonable average block height */
 }
 
 @media (max-width: 680px) {
+
     /* Tighter, more consistent spacing & friendlier tap areas */
-    .card, .feature-card, .strength, .skill-group, .contact-card, .timeline li { padding: .85rem .9rem 1rem; }
-    .card--project { padding: .85rem .85rem 1rem; }
-    .card--project .project-desc { max-height: 4.4em; min-height: 4.4em; }
-    .projects-grid { gap: 1.1rem; }
-    .skills-groups { gap: 1.1rem; }
-    .strengths-grid { gap: 1.1rem; }
-    .project-sheet { padding: 1rem 1rem 1.4rem; border-radius: 22px; }
-    .project-sheet__media { flex: 1 1 100%; min-height: 160px; }
-    .project-sheet__head { flex-direction: column; gap: 1rem; }
-    .project-sheet__heading { font-size: clamp(1.5rem, 7vw, 2.1rem); }
-    .project-sheet__overview { font-size: .98rem; }
-    .ps-feature { font-size: .95rem; }
-    .project-sheet__actions .btn { flex: 1 1 auto; min-width: 140px; }
-    .quick-links a { padding: .65rem .85rem; }
-    .btn, .btn--details, .btn--repo, .btn--contact { min-height: 44px; }
-    .modal--sheet .sheet { animation-duration: .4s; }
+    .card,
+    .feature-card,
+    .strength,
+    .skill-group,
+    .contact-card,
+    .timeline li {
+        padding: .85rem .9rem 1rem;
+    }
+
+    .card--project {
+        padding: .85rem .85rem 1rem;
+    }
+
+    .card--project .project-desc {
+        max-height: 4.4em;
+        min-height: 4.4em;
+    }
+
+    .projects-grid {
+        gap: 1.1rem;
+    }
+
+    .skills-groups {
+        gap: 1.1rem;
+    }
+
+    .strengths-grid {
+        gap: 1.1rem;
+    }
+
+    .project-sheet {
+        padding: 1rem 1rem 1.4rem;
+        border-radius: 22px;
+    }
+
+    .project-sheet__media {
+        flex: 1 1 100%;
+        min-height: 160px;
+    }
+
+    .project-sheet__head {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .project-sheet__heading {
+        font-size: clamp(1.5rem, 7vw, 2.1rem);
+    }
+
+    .project-sheet__overview {
+        font-size: .98rem;
+    }
+
+    .ps-feature {
+        font-size: .95rem;
+    }
+
+    .project-sheet__actions .btn {
+        flex: 1 1 auto;
+        min-width: 140px;
+    }
+
+    .quick-links a {
+        padding: .65rem .85rem;
+    }
+
+    .btn,
+    .btn--details,
+    .btn--repo,
+    .btn--contact {
+        min-height: 44px;
+    }
+
+    .modal--sheet .sheet {
+        animation-duration: .4s;
+    }
 }
 
 @media (max-width: 480px) {
+
     /* Ultra small devices adjustments */
-    .projects-grid, .skills-groups, .strengths-grid { gap: .9rem; }
-    .card--project img.thumb { aspect-ratio: 16 / 10.2; }
-    .card--project .project-title { font-size: 1rem; }
-    .card--project .project-desc { font-size: .82rem; line-height: 1.45; }
-    .ps-chip { font-size: .65rem; padding: .4rem .6rem; }
-    .badge { font-size: .55rem; padding: .25rem .45rem; }
-    .project-sheet { padding: .9rem .85rem 1.2rem; }
-    .sheet__scroll { padding: 1rem .85rem 1.6rem; }
+    .projects-grid,
+    .skills-groups,
+    .strengths-grid {
+        gap: .9rem;
+    }
+
+    .card--project img.thumb {
+        aspect-ratio: 16 / 10.2;
+    }
+
+    .card--project .project-title {
+        font-size: 1rem;
+    }
+
+    .card--project .project-desc {
+        font-size: .82rem;
+        line-height: 1.45;
+    }
+
+    .ps-chip {
+        font-size: .65rem;
+        padding: .4rem .6rem;
+    }
+
+    .badge {
+        font-size: .55rem;
+        padding: .25rem .45rem;
+    }
+
+    .project-sheet {
+        padding: .9rem .85rem 1.2rem;
+    }
+
+    .sheet__scroll {
+        padding: 1rem .85rem 1.6rem;
+    }
 }
 
 /* Touch optimization: when html.touch class present, flatten some hover transforms for smoother scrolling */
@@ -1325,13 +1459,26 @@ html.touch .strength:hover,
 html.touch .projects-page .card--project:hover,
 html.touch .skill-group:hover,
 html.touch .timeline li:hover,
-html.touch .contact-card:hover { transform: none; }
+html.touch .contact-card:hover {
+    transform: none;
+}
 
 html.touch .btn--details:hover,
 html.touch .btn--repo:hover,
-html.touch .btn--contact:hover { transform: none; }
+html.touch .btn--contact:hover {
+    transform: none;
+}
 
 /* Reduce large shadow cost on very small devices */
 @media (max-width: 420px) {
-  .card, .feature-card, .strength, .skill-group, .contact-card, .timeline li, .card--project { box-shadow: 0 6px 18px -10px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.05) inset; }
+
+    .card,
+    .feature-card,
+    .strength,
+    .skill-group,
+    .contact-card,
+    .timeline li,
+    .card--project {
+        box-shadow: 0 6px 18px -10px rgba(0, 0, 0, .5), 0 0 0 1px rgba(255, 255, 255, .05) inset;
+    }
 }

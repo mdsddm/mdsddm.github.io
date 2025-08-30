@@ -100,7 +100,10 @@ html.theme-switching *:not(html):not(body)::after,
 html.theme-switching *:not(html):not(body) {
     transition: background-color .22s ease, background .28s ease, color .18s ease, border-color .22s ease, box-shadow .28s ease, fill .22s ease, stroke .22s ease, filter .28s ease;
 }
-html.theme-switching body { transition: background .35s ease; }
+
+html.theme-switching body {
+    transition: background .35s ease;
+}
 
 /* Overlay that captures the previous theme and fades out quickly */
 #theme-transition-overlay {
@@ -109,10 +112,25 @@ html.theme-switching body { transition: background .35s ease; }
     z-index: 9999;
     pointer-events: none;
     animation: themeFadeOut .24s ease forwards;
-    background: var(--bg); /* actual computed gradient applied inline via JS when possible */
+    background: var(--bg);
+    /* actual computed gradient applied inline via JS when possible */
 }
-@keyframes themeFadeOut { from { opacity: 1; } to { opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { #theme-transition-overlay { animation-duration: .01ms; } }
+
+@keyframes themeFadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #theme-transition-overlay {
+        animation-duration: .01ms;
+    }
+}
 
 /* Subtle noise / texture overlay (replaces harsh diagonal lines) */
 body::before {
@@ -249,10 +267,27 @@ html.nocopy picture {
     pointer-events: none;
     /* prevents drag/save interactions */
 }
-html.nocopy video, html.nocopy canvas { -webkit-user-drag:none; pointer-events:none; }
-html.nocopy *, html.nocopy *::before, html.nocopy *::after { -webkit-touch-callout: none; }
+
+html.nocopy video,
+html.nocopy canvas {
+    -webkit-user-drag: none;
+    pointer-events: none;
+}
+
+html.nocopy *,
+html.nocopy *::before,
+html.nocopy *::after {
+    -webkit-touch-callout: none;
+}
+
 /* Preserve form control usability */
-html.nocopy input, html.nocopy textarea, html.nocopy button, html.nocopy select { pointer-events:auto; user-select:text; }
+html.nocopy input,
+html.nocopy textarea,
+html.nocopy button,
+html.nocopy select {
+    pointer-events: auto;
+    user-select: text;
+}
 
 /* ===================================================================== */
 /* Performance Enhancements                                              */
@@ -261,36 +296,69 @@ html.nocopy input, html.nocopy textarea, html.nocopy button, html.nocopy select 
 /* heavy animations, long transitions, large blurs & glow shadows for a  */
 /* snappier feel without fully stripping visual design.                  */
 /* ===================================================================== */
-html.perf-fast * { transition-duration: .25s !important; }
-html.perf-fast .cta { animation: none !important; }
-html.perf-fast .hero__visual:hover::before { animation: none !important; }
-html.perf-fast .hh-visual__frame:hover img { transform: none !important; }
+html.perf-fast * {
+    transition-duration: .25s !important;
+}
+
+html.perf-fast .cta {
+    animation: none !important;
+}
+
+html.perf-fast .hero__visual:hover::before {
+    animation: none !important;
+}
+
+html.perf-fast .hh-visual__frame:hover img {
+    transform: none !important;
+}
+
 html.perf-fast .feature-card:hover,
 html.perf-fast .strength:hover,
 html.perf-fast .projects-page .card--project:hover,
 html.perf-fast .skill-group:hover,
 html.perf-fast .timeline li:hover,
-html.perf-fast .contact-card:hover { transform: none !important; }
+html.perf-fast .contact-card:hover {
+    transform: none !important;
+}
+
 html.perf-fast .feature-card,
 html.perf-fast .strength,
 html.perf-fast .projects-page .card--project,
 html.perf-fast .skill-group,
 html.perf-fast .timeline li,
-html.perf-fast .contact-card { box-shadow: 0 6px 18px -10px rgba(0,0,0,.45) !important; }
+html.perf-fast .contact-card {
+    box-shadow: 0 6px 18px -10px rgba(0, 0, 0, .45) !important;
+}
+
 html.perf-fast .nav__links a.active,
-html.perf-fast .nav__links a:hover { transform: none !important; }
+html.perf-fast .nav__links a:hover {
+    transform: none !important;
+}
+
 html.perf-fast .hh-icon,
-html.perf-fast .hh-icon:hover { transform: none !important; }
-html.perf-fast .hero__visual::before { animation: none !important; }
-html.perf-fast .ph-decor { animation: none !important; }
+html.perf-fast .hh-icon:hover {
+    transform: none !important;
+}
+
+html.perf-fast .hero__visual::before {
+    animation: none !important;
+}
+
+html.perf-fast .ph-decor {
+    animation: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
+
     /* Honor user setting by also disabling hover transforms globally */
     html:not(.perf-fast) .feature-card:hover,
     html:not(.perf-fast) .strength:hover,
     html:not(.perf-fast) .projects-page .card--project:hover,
     html:not(.perf-fast) .skill-group:hover,
     html:not(.perf-fast) .timeline li:hover,
-    html:not(.perf-fast) .contact-card:hover { transform:none; }
+    html:not(.perf-fast) .contact-card:hover {
+        transform: none;
+    }
 }
 
 /* ===================================================================== */
@@ -299,13 +367,49 @@ html.perf-fast .ph-decor { animation: none !important; }
 /* replacing <main>. Only opacity (and tiny translate) animates for GPU  */
 /* friendliness. Disabled when prefers-reduced-motion is set.            */
 /* ===================================================================== */
-html.fast-nav-switching body { cursor: progress; }
-main.fastnav-outgoing, main.fastnav-incoming { will-change: opacity, transform; }
-main.fastnav-outgoing { position: relative; z-index: 0; }
-main.fastnav-incoming { position: absolute; inset: 0; z-index: 1; opacity: 0; pointer-events: none; }
-html.fast-nav-switching main.fastnav-outgoing { opacity: 0; transition: opacity .14s ease; }
-html.fast-nav-switching main.fastnav-incoming { transition: opacity .16s ease .04s, transform .18s ease; transform: translateY(4px); }
-html.fast-nav-switching main.fastnav-incoming.fastnav-show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+html.fast-nav-switching body {
+    cursor: progress;
+}
+
+main.fastnav-outgoing,
+main.fastnav-incoming {
+    will-change: opacity, transform;
+}
+
+main.fastnav-outgoing {
+    position: relative;
+    z-index: 0;
+}
+
+main.fastnav-incoming {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+}
+
+html.fast-nav-switching main.fastnav-outgoing {
+    opacity: 0;
+    transition: opacity .14s ease;
+}
+
+html.fast-nav-switching main.fastnav-incoming {
+    transition: opacity .16s ease .04s, transform .18s ease;
+    transform: translateY(4px);
+}
+
+html.fast-nav-switching main.fastnav-incoming.fastnav-show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
 @media (prefers-reduced-motion: reduce) {
-    html.fast-nav-switching main.fastnav-incoming, html.fast-nav-switching main.fastnav-outgoing { transition: none !important; transform:none !important; }
+
+    html.fast-nav-switching main.fastnav-incoming,
+    html.fast-nav-switching main.fastnav-outgoing {
+        transition: none !important;
+        transform: none !important;
+    }
 }

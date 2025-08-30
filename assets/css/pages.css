@@ -143,25 +143,67 @@
 }
 
 /* --- Projects Hero specific spacing to prevent heading / tagline crowding --- */
-.ph-projects .ph-inner { gap: 1.55rem; }
-.ph-projects .ph-heading { margin-bottom: .6rem; }
-.ph-projects .ph-tagline { margin-top: 0; }
+.ph-projects .ph-inner {
+    gap: 1.55rem;
+}
+
+.ph-projects .ph-heading {
+    margin-bottom: .6rem;
+}
+
+.ph-projects .ph-tagline {
+    margin-top: 0;
+}
 
 @media (max-width: 700px) {
-    .ph-projects .ph-heading { font-size: clamp(2.15rem, 6.2vw + .65rem, 2.85rem); line-height: 1.17; }
-    .ph-projects .ph-inner { gap: 1.45rem; }
+    .ph-projects .ph-heading {
+        font-size: clamp(2.15rem, 6.2vw + .65rem, 2.85rem);
+        line-height: 1.17;
+    }
+
+    .ph-projects .ph-inner {
+        gap: 1.45rem;
+    }
+
     /* Project hero tagline: tighten size & width slightly for earlier wrap */
-    .ph-projects .ph-tagline { font-size: clamp(.92rem, 1vw + .62rem, 1.05rem); line-height: 1.48; max-width: 54ch; text-wrap: balance; }
+    .ph-projects .ph-tagline {
+        font-size: clamp(.92rem, 1vw + .62rem, 1.05rem);
+        line-height: 1.48;
+        max-width: 54ch;
+        text-wrap: balance;
+    }
+
     /* Certifications & Contact hero tagline mobile tuning */
-    .ph-certs .ph-tagline, .ph-contact .ph-tagline { font-size: clamp(.92rem, 1vw + .6rem, 1.05rem); line-height:1.5; max-width: 54ch; text-wrap: balance; }
+    .ph-certs .ph-tagline,
+    .ph-contact .ph-tagline {
+        font-size: clamp(.92rem, 1vw + .6rem, 1.05rem);
+        line-height: 1.5;
+        max-width: 54ch;
+        text-wrap: balance;
+    }
 }
 
 /* Mobile refinement for Skills hero */
 @media (max-width: 700px) {
-    .ph-skills .ph-heading { font-size: clamp(2.1rem, 5.8vw + .7rem, 2.75rem); line-height: 1.18; margin-bottom: .5rem; }
-    .ph-skills .ph-tagline { font-size: clamp(.95rem, .9vw + .7rem, 1.05rem); line-height: 1.5; max-width: 46ch; }
-    .ph-skills .ph-inner { gap: 1.4rem; }
-    .ph-skills .ph-badges { gap: .5rem; }
+    .ph-skills .ph-heading {
+        font-size: clamp(2.1rem, 5.8vw + .7rem, 2.75rem);
+        line-height: 1.18;
+        margin-bottom: .5rem;
+    }
+
+    .ph-skills .ph-tagline {
+        font-size: clamp(.95rem, .9vw + .7rem, 1.05rem);
+        line-height: 1.5;
+        max-width: 46ch;
+    }
+
+    .ph-skills .ph-inner {
+        gap: 1.4rem;
+    }
+
+    .ph-skills .ph-badges {
+        gap: .5rem;
+    }
 }
 
 .ph-badges li::after {
@@ -453,7 +495,8 @@
 
 .timeline li {
     position: relative;
-    padding: 1rem 1rem 1.1rem 1.9rem; /* increased left padding to give bullet breathing room */
+    padding: 1rem 1rem 1.1rem 1.9rem;
+    /* increased left padding to give bullet breathing room */
     border-radius: 22px;
     background: linear-gradient(155deg, color-mix(in srgb, var(--card) 85%, transparent), color-mix(in srgb, var(--bg-soft) 92%, transparent));
     border: 1px solid color-mix(in srgb, var(--accent-2) 25%, var(--border));
@@ -467,7 +510,8 @@
 .timeline li::before {
     content: "";
     position: absolute;
-    left: 8px; /* shift left slightly now that text moved right */
+    left: 8px;
+    /* shift left slightly now that text moved right */
     top: 50%;
     transform: translateY(-50%);
     width: 8px;
@@ -494,7 +538,8 @@
     list-style: disc;
     padding-left: 1.1rem;
     margin: .25rem 0 0;
-    gap: 0; /* gap unused when display:block */
+    gap: 0;
+    /* gap unused when display:block */
 }
 
 .about-side .timeline li {
@@ -511,7 +556,8 @@
     list-style-position: outside;
 }
 
-.about-side .timeline li::before { /* remove decorative dot */
+.about-side .timeline li::before {
+    /* remove decorative dot */
     display: none;
     content: none;
 }
@@ -524,7 +570,9 @@
 
 /* Extra safeguard: if parent gradients create perceived washout, allow opting into ultra strong text */
 @media (prefers-contrast: more) {
-    :root.light .about-side .timeline li { color: #0a0a0a; }
+    :root.light .about-side .timeline li {
+        color: #0a0a0a;
+    }
 }
 
 /* ============== Contact Page ============== */
@@ -563,7 +611,9 @@
     box-shadow: 0 18px 46px -26px rgba(0, 0, 0, .24), 0 0 0 1px rgba(255, 255, 255, .6) inset;
 }
 
-:root.light .contact-panel::before { opacity: .55; }
+:root.light .contact-panel::before {
+    opacity: .55;
+}
 
 .contact-panel::before {
     content: "";
@@ -657,7 +707,9 @@
     color: color-mix(in srgb, var(--text) 94%, #000);
 }
 
-:root.light .contact-card::before { opacity: .52; }
+:root.light .contact-card::before {
+    opacity: .52;
+}
 
 /* Inputs: slight tint & clearer border in light mode */
 :root.light .contact-panel input,
@@ -1167,31 +1219,87 @@
 
 /* Finer mobile scaling for page heroes (all variants) */
 @media (max-width: 520px) {
-        .page-hero { padding: clamp(2.6rem, 9vw, 3.2rem) 0 clamp(1.15rem, 5vw, 1.8rem); }
-        .ph-heading { font-size: clamp(1.9rem, 8vw, 2.4rem); line-height: 1.15; letter-spacing:.5px; }
-        .ph-tagline { font-size: clamp(.9rem, 1vw + .6rem, 1rem); line-height:1.5; max-width: 52ch; }
-        .ph-badges { gap: .45rem; }
-        .ph-badges li { font-size: .55rem; padding: .4rem .6rem .45rem; letter-spacing: 1px; }
+    .page-hero {
+        padding: clamp(2.6rem, 9vw, 3.2rem) 0 clamp(1.15rem, 5vw, 1.8rem);
+    }
+
+    .ph-heading {
+        font-size: clamp(1.9rem, 8vw, 2.4rem);
+        line-height: 1.15;
+        letter-spacing: .5px;
+    }
+
+    .ph-tagline {
+        font-size: clamp(.9rem, 1vw + .6rem, 1rem);
+        line-height: 1.5;
+        max-width: 52ch;
+    }
+
+    .ph-badges {
+        gap: .45rem;
+    }
+
+    .ph-badges li {
+        font-size: .55rem;
+        padding: .4rem .6rem .45rem;
+        letter-spacing: 1px;
+    }
+
     /* Further tighten project tagline on very small devices */
-    .ph-projects .ph-tagline { font-size: clamp(.88rem, 1.2vw + .55rem, .98rem); max-width: 50ch; line-height:1.48; }
+    .ph-projects .ph-tagline {
+        font-size: clamp(.88rem, 1.2vw + .55rem, .98rem);
+        max-width: 50ch;
+        line-height: 1.48;
+    }
+
     /* Further tighten cert/contact taglines */
-    .ph-certs .ph-tagline, .ph-contact .ph-tagline { font-size: clamp(.88rem, 1.2vw + .55rem, .98rem); max-width: 50ch; line-height:1.48; }
+    .ph-certs .ph-tagline,
+    .ph-contact .ph-tagline {
+        font-size: clamp(.88rem, 1.2vw + .55rem, .98rem);
+        max-width: 50ch;
+        line-height: 1.48;
+    }
 }
+
 @media (max-width: 420px) {
-        .ph-heading { font-size: clamp(1.78rem, 8.6vw, 2.18rem); }
-        .ph-tagline { font-size: .9rem; }
+    .ph-heading {
+        font-size: clamp(1.78rem, 8.6vw, 2.18rem);
+    }
+
+    .ph-tagline {
+        font-size: .9rem;
+    }
 }
+
 @media (max-width: 360px) {
-        .ph-heading { font-size: clamp(1.65rem, 9vw, 2rem); }
-        .ph-tagline { font-size: .88rem; line-height:1.48; }
+    .ph-heading {
+        font-size: clamp(1.65rem, 9vw, 2rem);
+    }
+
+    .ph-tagline {
+        font-size: .88rem;
+        line-height: 1.48;
+    }
 }
 
 /* About hero extra small refinements */
 @media (max-width: 520px) {
-    .ah-heading { font-size: clamp(1.9rem, 8.2vw, 2.3rem); }
-    .ah-tagline { font-size: 1rem; line-height:1.5; }
+    .ah-heading {
+        font-size: clamp(1.9rem, 8.2vw, 2.3rem);
+    }
+
+    .ah-tagline {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
 }
+
 @media (max-width: 420px) {
-    .ah-heading { font-size: clamp(1.75rem, 9vw, 2.1rem); }
-    .ah-tagline { font-size: .95rem; }
+    .ah-heading {
+        font-size: clamp(1.75rem, 9vw, 2.1rem);
+    }
+
+    .ah-tagline {
+        font-size: .95rem;
+    }
 }
