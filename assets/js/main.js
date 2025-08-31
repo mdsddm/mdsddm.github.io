@@ -73,6 +73,15 @@ function setupThemeButton() {
         btn.setAttribute('aria-label', isLight ? 'Activate dark theme' : 'Activate light theme');
         setIconMarkup(btn, isLight);
     });
+    // Handle pageshow (bfcache restore) and custom SPA swaps ensuring icon stays in sync
+    window.addEventListener('pageshow', () => {
+        const btn = document.getElementById('theme-toggle');
+        if (!btn) return;
+        const isLight = document.documentElement.classList.contains('light');
+        btn.setAttribute('aria-pressed', String(isLight));
+        btn.setAttribute('aria-label', isLight ? 'Activate dark theme' : 'Activate light theme');
+        setIconMarkup(btn, isLight);
+    });
 }
 
 /* Mobile nav: toggle open/closed, set aria-expanded, and basic focus mgmt */
@@ -236,13 +245,24 @@ document.addEventListener("DOMContentLoaded", () => {
             const newMain = doc.querySelector('main');
             const curMain = document.querySelector('main');
             if (newMain && curMain) {
+                // Ensure ID uniqueness cleanup (avoid duplicate modal nodes etc.)
+                // Remove any modal existing in new page if already present to prevent duplication
+                const existingModal = document.getElementById('modal');
+                const incomingModal = newMain.querySelector('#modal');
+                if (existingModal && incomingModal) incomingModal.remove();
                 // Smooth cross-fade: stage new main atop old one
                 const parent = curMain.parentNode;
-                // Clone current main temporarily to allow animation out
                 const outgoing = curMain;
                 outgoing.classList.add('fastnav-outgoing');
                 newMain.classList.add('fastnav-incoming');
-                parent.appendChild(newMain); // position absolute over outgoing
+                // Insert new main immediately after outgoing so document flow height remains
+                outgoing.insertAdjacentElement('afterend', newMain);
+                // Placeholder to lock height during opacity transition (prevents footer jump)
+                const ph = document.createElement('div');
+                ph.style.height = outgoing.offsetHeight + 'px';
+                ph.style.pointerEvents = 'none';
+                ph.dataset.fastnavPh = 'true';
+                outgoing.replaceWith(ph);
                 document.documentElement.classList.add('fast-nav-switching');
                 // Update active nav link
                 document.querySelectorAll('#nav-panel a').forEach(a => {
@@ -259,17 +279,36 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Trigger incoming reveal next frame
                 requestAnimationFrame(() => {
                     newMain.classList.add('fastnav-show');
-                    // After transition end, cleanup
-                    const done = () => {
-                        newMain.removeEventListener('transitionend', done);
-                        // Remove outgoing
-                        outgoing.remove();
+                    let finished = false;
+                    const finalize = () => {
+                        if (finished) return; finished = true;
+                        newMain.removeEventListener('transitionend', finalize);
+                        // Remove placeholder and reveal new main
+                        const placeholder = document.querySelector('[data-fastnav-ph]');
+                        placeholder && placeholder.replaceWith(newMain);
                         newMain.classList.remove('fastnav-incoming', 'fastnav-show');
                         document.documentElement.classList.remove('fast-nav-switching');
+                        // Ensure restored flow
+                        newMain.style.position = '';
                     };
-                    newMain.addEventListener('transitionend', done);
+                    // Normal path: wait for transition end
+                    newMain.addEventListener('transitionend', finalize);
+                    // Early finalize for reduced motion or if styles disable transitions
+                    const prefersReduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+                    if (prefersReduce) setTimeout(finalize, 40);
+                    // General fallbacks
+                    setTimeout(finalize, 300); // typical animation window
+                    setTimeout(finalize, 600); // absolute safety
                 });
                 if (add) history.pushState({ spa: true }, '', url);
+                // Safety: force recovery if something goes wrong with transition
+                setTimeout(() => {
+                    if (document.documentElement.classList.contains('fast-nav-switching')) return; // still switching
+                    const loneIncoming = document.querySelector('main.fastnav-incoming');
+                    if (loneIncoming) {
+                        loneIncoming.classList.remove('fastnav-incoming', 'fastnav-show');
+                    }
+                }, 520);
             } else {
                 location.href = url; // fallback
             }

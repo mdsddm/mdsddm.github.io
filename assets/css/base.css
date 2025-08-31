@@ -21,6 +21,24 @@ body {
     line-height: 1.6;
 }
 
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+footer.site {
+    flex-shrink: 0;
+}
+
 img,
 picture,
 video,
@@ -62,23 +80,26 @@ select {
     --shadow: 0 10px 28px -6px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
 }
 
-/* Light theme – airy aqua backdrop with deeper teal + indigo-violet accents */
+/* Light theme – derived from dark palette (teal + violet) with airy neutrals */
 :root.light {
-    --bg: #f2fbfa;
-    /* very pale aqua */
+    --bg: #f2f6f7;
+    /* cool airy base echoing dark cyan tint */
     --bg-soft: #ffffff;
-    /* panels */
+    /* elevated surfaces */
     --card: #ffffff;
-    --text: #0e272d;
-    /* deep teal-slate */
-    --muted: #5d757d;
-    /* cooled gray */
-    --accent: #0d9c89;
-    /* rich teal for contrast */
-    --accent-2: #6852e9;
-    /* indigo-violet */
-    --border: #cfe2e4;
-    /* soft aqua border */
+    /* cards */
+    --text: #111a1f;
+    /* deep ink for strong contrast */
+    --muted: #56656c;
+    /* desaturated slate (from dark muted) */
+    --accent: #23c9b0;
+    /* lifted teal (lighter than dark #34d3b4) */
+    --accent-2: #755ef3;
+    /* softened violet (lighter than dark #8b6ff8) */
+    --border: #c7d5d9;
+    /* cool subtle border */
+    --error: #dc2626;
+    --shadow: 0 6px 28px -12px rgba(0, 0, 0, .14), 0 0 0 1px rgba(0, 0, 0, .05) inset;
 }
 
 /* 3) Base elements */
@@ -92,6 +113,22 @@ body {
     background-attachment: fixed;
     color: var(--text);
     font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* (Removed earlier duplicate light body background block to consolidate below) */
+
+/* Mobile: avoid potential repaint cost of fixed backgrounds */
+@media (max-width: 780px) {
+    body {
+        background-attachment: scroll;
+    }
+}
+
+/* Performance mode: simplify background for less GPU cost */
+html.perf-fast body {
+    background:
+        linear-gradient(180deg, color-mix(in srgb, var(--bg) 92%, #000 8%) 0%, var(--bg) 60%),
+        var(--bg);
 }
 
 /* Fast, aesthetic theme switch helper (applied briefly via JS) */
@@ -164,9 +201,9 @@ body.sheet-open::before {
 
 :root.light body {
     background:
-        radial-gradient(at 18% 22%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%),
-        radial-gradient(at 82% 78%, color-mix(in srgb, var(--accent-2) 20%, transparent), transparent 65%),
-        linear-gradient(180deg, color-mix(in srgb, var(--bg) 92%, #ffffff 6%) 0%, var(--bg) 55%),
+        radial-gradient(at 20% 24%, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 58%),
+        radial-gradient(at 78% 76%, color-mix(in srgb, var(--accent-2) 18%, transparent) 0%, transparent 62%),
+        linear-gradient(180deg, color-mix(in srgb, var(--bg) 92%, #ffffff 8%) 0%, var(--bg) 55%),
         var(--bg);
 }
 
@@ -214,12 +251,20 @@ p.lead {
 }
 
 a {
-    color: var(--accent-2);
+    color: var(--accent);
     text-decoration: none;
+    position: relative;
+    transition: color .3s;
 }
 
 a:hover {
-    text-decoration: underline;
+    text-decoration: none;
+    color: var(--accent-2);
+}
+
+a:focus-visible {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 2px;
 }
 
 /* Global interactive hover/active transitions */
@@ -382,9 +427,9 @@ main.fastnav-outgoing {
 }
 
 main.fastnav-incoming {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
+    /* Keep in normal flow so body flex layout retains height, avoiding footer collapse */
+    position: relative;
+    z-index: 0;
     opacity: 0;
     pointer-events: none;
 }

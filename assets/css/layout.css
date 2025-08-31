@@ -40,11 +40,11 @@ body.nav-open {
 
 :root.light header.site {
     background:
-        radial-gradient(circle at 14% 22%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 70%),
-        radial-gradient(circle at 86% 74%, color-mix(in srgb, var(--accent-2) 28%, transparent), transparent 70%),
-        linear-gradient(135deg, color-mix(in srgb, var(--bg-soft) 92%, transparent), color-mix(in srgb, var(--bg) 96%, transparent));
-    border-bottom: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
-    box-shadow: 0 2px 10px -4px rgba(0, 0, 0, .25), 0 0 0 1px rgba(255, 255, 255, .35) inset;
+        linear-gradient(180deg, rgba(255, 255, 255, .9) 0%, rgba(255, 255, 255, .78) 58%, rgba(255, 255, 255, .62) 100%),
+        radial-gradient(circle at 78% 18%, color-mix(in srgb, var(--accent-2) 18%, transparent), transparent 68%),
+        radial-gradient(circle at 16% 74%, color-mix(in srgb, var(--accent) 15%, transparent), transparent 70%);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 4px 18px -9px rgba(0, 0, 0, .14), 0 0 0 1px rgba(255, 255, 255, 0.65) inset;
 }
 
 .nav {
@@ -540,10 +540,37 @@ body.nav-open {
         order: 4;
         width: 100%;
         background: linear-gradient(135deg, color-mix(in srgb, var(--bg-soft) 94%, var(--accent) 3%) 0%, color-mix(in srgb, var(--bg) 96%, var(--accent-2) 3%) 100%);
-        backdrop-filter: blur(18px) saturate(160%);
-        -webkit-backdrop-filter: blur(18px) saturate(160%);
+        backdrop-filter: blur(12px) saturate(160%);
+        -webkit-backdrop-filter: blur(12px) saturate(160%);
         border: none;
-        box-shadow: 0 14px 44px -24px rgba(0, 0, 0, .6), 0 0 0 1px rgba(255, 255, 255, .04) inset;
+
+        /* Perf fast: reduce heavy blurs & shadows */
+        html.perf-fast header.site,
+        html.perf-fast :root.light header.site,
+        html.perf-fast :root.light footer.site,
+        html.perf-fast footer.site {
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            box-shadow: 0 2px 6px -3px rgba(0, 0, 0, .4), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+        }
+
+        html.perf-fast .cta,
+        html.perf-fast .nav__toggle,
+        html.perf-fast .nav__links a,
+        html.perf-fast .strength,
+        html.perf-fast .card,
+        html.perf-fast .project-sheet,
+        html.perf-fast .contact-card {
+            box-shadow: 0 4px 12px -6px rgba(0, 0, 0, .5), 0 0 0 1px rgba(255, 255, 255, 0.03) inset !important;
+        }
+
+        html.perf-fast .ph-decor {
+            filter: blur(30px) saturate(120%) !important;
+            opacity: .4 !important;
+        }
+
+        box-shadow: 0 14px 44px -24px rgba(0, 0, 0, .6),
+        0 0 0 1px rgba(255, 255, 255, .04) inset;
         border: 1px solid color-mix(in srgb, var(--accent-2) 25%, var(--border));
         flex-direction: column;
         gap: 0.25rem;
@@ -551,7 +578,9 @@ body.nav-open {
         height: 0;
         padding: 0 1rem;
         /* inner padding retained for horizontal */
-        transition: height .5s cubic-bezier(.6, .2, .25, 1), opacity .5s ease, transform .55s cubic-bezier(.4, .8, .3, 1);
+        transition: height .5s cubic-bezier(.6, .2, .25, 1),
+        opacity .5s ease,
+        transform .55s cubic-bezier(.4, .8, .3, 1);
         position: relative;
         border-radius: 28px;
         margin-top: .85rem;
@@ -678,19 +707,19 @@ footer.site {
     margin-top: 2rem;
     padding: 1.25rem 0;
     color: var(--muted);
-    background: var(--bg-soft);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--bg-soft) 98%, transparent) 0%, color-mix(in srgb, var(--bg) 94%, transparent) 120%);
 }
 
 /* Light theme footer: add subtle elevated glass & gradient for separation */
 :root.light footer.site {
     background:
-        radial-gradient(circle at 14% 18%, color-mix(in srgb, var(--accent) 22%, transparent) 0%, transparent 70%),
-        linear-gradient(180deg, color-mix(in srgb, #fff 94%, var(--accent) 6%) 0%, #ffffff 90%);
-    border-top: 1px solid color-mix(in srgb, var(--accent-2) 28%, var(--border));
-    box-shadow: 0 -2px 10px -6px rgba(0, 0, 0, .15), 0 0 0 1px rgba(255, 255, 255, .65) inset;
-    backdrop-filter: blur(12px) saturate(160%);
-    -webkit-backdrop-filter: blur(12px) saturate(160%);
-    color: color-mix(in srgb, var(--text) 82%, #222);
+        linear-gradient(180deg, rgba(255, 255, 255, .84) 0%, rgba(255, 255, 255, .95) 92%),
+        radial-gradient(circle at 84% 32%, color-mix(in srgb, var(--accent-2) 16%, transparent), transparent 72%);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -3px 14px -8px rgba(0, 0, 0, .10), 0 0 0 1px rgba(255, 255, 255, .68) inset;
+    backdrop-filter: blur(8px) saturate(150%);
+    -webkit-backdrop-filter: blur(8px) saturate(150%);
+    color: color-mix(in srgb, var(--text) 92%, #000);
 }
 
 :root.light footer.site a {
@@ -716,10 +745,10 @@ footer.site {
 /* Light theme variant: soften dark core, increase airy contrast */
 :root.light .cta {
     background:
-        linear-gradient(145deg, color-mix(in srgb, var(--accent) 15%, #ffffff 85%) 0%, color-mix(in srgb, var(--accent-2) 18%, #ffffff 82%) 100%),
-        radial-gradient(circle at 20% 18%, color-mix(in srgb, var(--accent) 22%, transparent) 0%, transparent 60%);
-    border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
-    box-shadow: 0 22px 48px -24px rgba(0, 0, 0, .25), 0 0 0 1px rgba(255, 255, 255, .55) inset;
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, #ffffff 78%) 0%, color-mix(in srgb, var(--accent-2) 24%, #ffffff 76%) 100%),
+        radial-gradient(circle at 34% 24%, color-mix(in srgb, var(--accent) 24%, transparent) 0%, transparent 58%);
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--border));
+    box-shadow: 0 18px 40px -24px rgba(0, 0, 0, .20), 0 0 0 1px rgba(255, 255, 255, .55) inset;
 }
 
 :root.light .cta::before {
@@ -838,7 +867,10 @@ footer.site {
 /* ================= Redesigned Home Hero ================= */
 .home-hero {
     position: relative;
-    padding: clamp(3rem, 6vw, 5rem) 0 clamp(1.5rem, 4vw, 3rem);
+    /* Increased bottom padding so next section can visually blend without a hard band */
+    padding: clamp(3rem, 6vw, 5rem) 0 clamp(2.2rem, 5vw, 3.8rem);
+    margin-bottom: 0;
+    /* eliminate gap that produced a pale band */
 }
 
 .home-hero::before {
@@ -847,7 +879,36 @@ footer.site {
     inset: 0;
     background: radial-gradient(circle at 18% 22%, color-mix(in srgb, var(--accent) 20%, transparent) 0%, transparent 65%), radial-gradient(circle at 82% 78%, color-mix(in srgb, var(--accent-2) 22%, transparent) 0%, transparent 70%), linear-gradient(140deg, color-mix(in srgb, var(--bg) 94%, transparent), color-mix(in srgb, var(--bg-soft) 90%, transparent));
     opacity: .85;
+    /* Fade the overlay toward the bottom to avoid a hard edge before strengths section */
+    -webkit-mask: linear-gradient(to bottom, #000 72%, rgba(0, 0, 0, .85) 82%, rgba(0, 0, 0, .55) 88%, rgba(0, 0, 0, 0) 100%);
+    mask: linear-gradient(to bottom, #000 72%, rgba(0, 0, 0, .85) 82%, rgba(0, 0, 0, .55) 88%, rgba(0, 0, 0, 0) 100%);
     pointer-events: none;
+}
+
+/* Subtle bridge gradient to blend into the following strengths section */
+.home-hero::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: clamp(70px, 11vw, 120px);
+    background: linear-gradient(to bottom,
+            color-mix(in srgb, var(--bg-soft) 85%, transparent) 0%,
+            color-mix(in srgb, var(--bg-soft) 78%, transparent) 35%,
+            color-mix(in srgb, var(--bg-soft) 60%, transparent) 60%,
+            rgba(0, 0, 0, 0) 100%);
+    pointer-events: none;
+    opacity: .85;
+}
+
+:root.light .home-hero::after {
+    background: linear-gradient(to bottom,
+            color-mix(in srgb, #ffffff 92%, var(--accent) 8%) 0%,
+            color-mix(in srgb, #ffffff 94%, var(--accent-2) 6%) 40%,
+            color-mix(in srgb, #ffffff 96%, var(--accent-2) 4%) 60%,
+            rgba(255, 255, 255, 0) 100%);
+    opacity: .9;
 }
 
 .home-hero__inner {
@@ -1202,10 +1263,6 @@ footer.site {
     box-shadow: 0 8px 20px -10px rgba(0, 0, 0, .25), 0 0 0 1px rgba(255, 255, 255, .55) inset;
 }
 
-:root.light .hh-icon {
-    box-shadow: 0 6px 16px -8px rgba(0, 0, 0, .3), 0 0 0 1px rgba(255, 255, 255, .55) inset;
-}
-
 /* ================= Highlights Redesign ================= */
 .home-highlights {
     position: relative;
@@ -1341,7 +1398,37 @@ footer.site {
 /* ===== New Core Strengths Section ===== */
 .home-strengths {
     position: relative;
-    margin-top: clamp(1rem, 2vw, 2rem);
+    /* Remove previous margin to allow hero bridge gradient to blend smoothly */
+    margin-top: 0;
+}
+
+/* Light theme: give Core Strengths a subtle panel so cards don't float on a mismatched band */
+:root.light .home-strengths {
+    background: linear-gradient(145deg,
+            color-mix(in srgb, #ffffff 96%, var(--accent) 4%) 0%,
+            color-mix(in srgb, #ffffff 98%, var(--accent-2) 2%) 100%);
+    border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border));
+    border-radius: clamp(28px, 2.2vw, 42px);
+    padding: clamp(1.6rem, 3vw, 2.4rem) clamp(1rem, 3vw, 1.8rem) clamp(2rem, 4vw, 2.8rem);
+    box-shadow: 0 30px 80px -40px rgba(0, 0, 0, .25), 0 2px 6px -2px rgba(0, 0, 0, .06), 0 0 0 1px rgba(255, 255, 255, .6) inset;
+    overflow: hidden;
+}
+
+:root.light .home-strengths::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 18% 22%, color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 60%),
+        radial-gradient(circle at 78% 78%, color-mix(in srgb, var(--accent-2) 16%, transparent) 0%, transparent 65%),
+        linear-gradient(180deg, rgba(255, 255, 255, .65), rgba(255, 255, 255, 0) 55%);
+    mix-blend-mode: overlay;
+    opacity: .55;
+    pointer-events: none;
+}
+
+/* Reset grid spacing when wrapped with inner padding */
+:root.light .home-strengths .strengths-grid {
+    margin-top: .4rem;
 }
 
 .strengths-grid {
@@ -1357,12 +1444,16 @@ footer.site {
     gap: .85rem;
     padding: 1.1rem 1.15rem 1.25rem 1.15rem;
     border-radius: 26px;
-    background: linear-gradient(155deg, color-mix(in srgb, var(--card) 85%, transparent), color-mix(in srgb, var(--bg-soft) 90%, transparent));
+    background: linear-gradient(155deg,
+            color-mix(in srgb, var(--card) 86%, transparent) 0%,
+            color-mix(in srgb, var(--bg-soft) 90%, transparent) 55%,
+            color-mix(in srgb, var(--bg-soft) 94%, transparent) 100%);
     border: 1px solid color-mix(in srgb, var(--accent-2) 25%, var(--border));
     box-shadow: 0 14px 40px -24px rgba(0, 0, 0, .66), 0 0 0 1px rgba(255, 255, 255, .05) inset;
     overflow: hidden;
     isolation: isolate;
-    transition: transform .65s cubic-bezier(.25, .8, .25, 1), box-shadow .7s, border-color .55s, background .7s;
+    background-size: 180% 180%;
+    transition: transform .7s cubic-bezier(.25, .8, .25, 1), box-shadow .75s, border-color .55s, background .9s ease, background-position 1.4s ease;
 }
 
 .strength::before {
@@ -1376,13 +1467,55 @@ footer.site {
     pointer-events: none;
 }
 
+/* Gradient border glow layer */
+.strength::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    /* creates the stroke */
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .7s;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+}
+
 .strength:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 26px 64px -26px rgba(0, 0, 0, .75), 0 0 0 1px rgba(255, 255, 255, .07) inset;
+    /* Removed vertical lift to avoid overlapping previous (hero) section */
+    transform: none;
+    box-shadow: 0 14px 44px -24px rgba(0, 0, 0, .6), 0 0 0 1px rgba(255, 255, 255, .07) inset;
+    background-position: 53% 47%;
 }
 
 .strength:hover::before {
     opacity: .62;
+}
+
+.strength:hover::after {
+    opacity: .55;
+}
+
+/* Icon slight lift for added depth */
+.strength:hover .strength__icon {
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .strength,
+    .strength:hover {
+        transform: none !important;
+        background-position: 50% 50% !important;
+    }
+
+    .strength:hover .strength__icon {
+        transform: none !important;
+    }
 }
 
 .strength__icon {
@@ -1462,22 +1595,30 @@ footer.site {
     box-shadow: 0 0 0 3px rgba(255, 255, 255, .05);
 }
 
+/* Light theme refinement for strengths */
 :root.light .strength {
-    background:
-        linear-gradient(155deg,
-            color-mix(in srgb, #ffffff 78%, var(--accent) 22%) 0%,
-            color-mix(in srgb, #ffffff 80%, var(--accent-2) 20%) 55%,
-            color-mix(in srgb, #ffffff 86%, var(--accent-2) 14%) 100%);
-    box-shadow: 0 18px 46px -28px rgba(0, 0, 0, .3), 0 0 0 1px rgba(255, 255, 255, .55) inset;
-    border: 1px solid color-mix(in srgb, var(--accent-2) 40%, var(--accent) 35%);
+    background: linear-gradient(160deg,
+            color-mix(in srgb, #ffffff 94%, var(--accent) 6%) 0%,
+            color-mix(in srgb, #ffffff 97%, var(--accent-2) 3%) 55%,
+            color-mix(in srgb, #ffffff 99%, var(--accent-2) 1%) 100%);
+    box-shadow: 0 14px 38px -24px rgba(0, 0, 0, .22), 0 0 0 1px rgba(255, 255, 255, .55) inset;
+    border: 1px solid color-mix(in srgb, var(--accent) 26%, var(--border));
 }
 
 :root.light .strength::before {
-    opacity: .55;
+    opacity: .45;
     background:
-        radial-gradient(circle at 18% 22%, color-mix(in srgb, var(--accent) 28%, transparent) 0%, transparent 62%),
-        radial-gradient(circle at 82% 78%, color-mix(in srgb, var(--accent-2) 28%, transparent) 0%, transparent 65%),
-        linear-gradient(150deg, rgba(255, 255, 255, .65), rgba(255, 255, 255, 0) 55%);
+        radial-gradient(circle at 18% 22%, color-mix(in srgb, var(--accent) 22%, transparent) 0%, transparent 60%),
+        radial-gradient(circle at 82% 78%, color-mix(in srgb, var(--accent-2) 20%, transparent) 0%, transparent 62%),
+        linear-gradient(150deg, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0) 55%);
+}
+
+/* Light: soften icon backgrounds for better cohesion */
+:root.light .strength__icon {
+    background: linear-gradient(145deg,
+            color-mix(in srgb, var(--accent) 75%, #ffffff 25%),
+            color-mix(in srgb, var(--accent-2) 70%, #ffffff 30%));
+    box-shadow: 0 10px 26px -14px rgba(0, 0, 0, .28), 0 0 0 1px rgba(255, 255, 255, .6) inset;
 }
 
 :root.light .strength__desc {

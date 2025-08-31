@@ -1,8 +1,8 @@
 /* Components: cards, timeline, forms, modal, badges */
 
 .card {
-    background: var(--card);
-    border: 1px solid var(--border);
+    background: linear-gradient(145deg, color-mix(in srgb, var(--card) 94%, transparent) 0%, color-mix(in srgb, var(--bg-soft) 96%, transparent) 70%);
+    border: 1px solid color-mix(in srgb, var(--border) 86%, var(--accent) 4%);
     border-radius: var(--radius);
     padding: 1rem;
     box-shadow: var(--shadow);
@@ -36,9 +36,10 @@
     position: relative;
     overflow: hidden;
     padding: 0.95rem 0.95rem 1.15rem;
-    background: linear-gradient(155deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 55%);
-    border: 1px solid var(--border);
-    backdrop-filter: saturate(170%) blur(3px);
+    background: linear-gradient(155deg, color-mix(in srgb, var(--card) 96%, transparent) 0%, color-mix(in srgb, var(--bg-soft) 98%, transparent) 70%);
+    border: 1px solid color-mix(in srgb, var(--border) 88%, var(--accent) 6%);
+    backdrop-filter: saturate(150%) blur(2.2px);
+    -webkit-backdrop-filter: saturate(150%) blur(2.2px);
     transition: transform .55s ease, box-shadow .6s ease, border-color .5s ease, background .6s ease;
     display: flex;
     flex-direction: column;
@@ -100,7 +101,7 @@
     flex-direction: column;
     gap: 1.35rem;
     background:
-        linear-gradient(150deg, color-mix(in srgb, var(--bg-soft) 96%, transparent) 0%, color-mix(in srgb, var(--bg) 98%, transparent) 70%);
+        linear-gradient(150deg, color-mix(in srgb, var(--bg-soft) 98%, transparent) 0%, color-mix(in srgb, var(--bg) 99%, transparent) 70%);
     box-shadow: 0 14px 40px -16px rgba(0, 0, 0, .65), 0 0 0 1px rgba(255, 255, 255, .05) inset, 0 0 0 6px rgba(255, 255, 255, .012) inset;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
