@@ -34,8 +34,8 @@ const PROFILE = {
             description:
                 "MERN-based SaaS platform for conducting structured technical interviews with real-time coding and analytics.",
             tech: ["React.js", "Node.js", "Express.js", "MongoDB"],
-            links: { repo: "#", live: "#" },
-            thumb: "assets/img/valexia-new.png",
+            links: { repo: "https://github.com/mdsddm/Valexia", live: "#" },
+            thumb: "assets/img/valexia-3d.png",
             details:
                 "A comprehensive platform facilitating real-time coding interviews, video calls, collaboration tools, and anti-cheat mechanisms.",
             features: [
@@ -53,8 +53,8 @@ const PROFILE = {
             description:
                 "Full-stack accommodation platform with authentication, listings, image uploads, and reviews.",
             tech: ["Node.js", "Express.js", "MongoDB Atlas", "Cloudinary", "Render"],
-            links: { repo: "#", live: "#" },
-            thumb: "assets/img/staynest-thumb.png",
+            links: { repo: "https://github.com/mdsddm/airbnb-clone", live: "#" },
+            thumb: "assets/img/staynest-3d.png",
             details:
                 "A feature-rich booking platform allowing users to list properties, book stays, and leave reviews, deployed on Render.",
             features: [
@@ -72,8 +72,8 @@ const PROFILE = {
             description:
                 "Backend system for security policies, vulnerability tracking, and compliance management.",
             tech: ["Python", "MySQL"],
-            links: { repo: "#", live: "#" },
-            thumb: "assets/img/cyguard-new.png",
+            links: { repo: "https://github.com/mdsddm/Cyber-Security-Management-System", live: "#" },
+            thumb: "assets/img/cyguard-3d.png",
             details:
                 "A backend solution designed to manage an organization's security posture through policy enforcement and vulnerability tracking.",
             features: [

@@ -1,363 +1,180 @@
-/* App-wide behaviors: theme toggle, mobile nav, intersection animations */
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Setup Utils
+    setupTouchDetect();
 
-(function themeInit() {
-    const saved = localStorage.getItem("theme");
-    if (saved === "light") document.documentElement.classList.add("light");
-})();
+    // 2. Render Content
+    renderProjects();
+    renderSkills();
+    renderEducation();
 
-/* Lightweight performance mode auto-toggle */
-(function perfInit() {
-    try {
-        const root = document.documentElement;
-        // Manual override: localStorage.perf = 'fast' | 'full'
-        const stored = localStorage.getItem('perf');
-        if (stored === 'fast') { root.classList.add('perf-fast'); return; }
-        if (stored === 'full') { root.classList.remove('perf-fast'); return; }
-        // Heuristics: low # of logical cores or capped memory -> fast mode
-        const cores = navigator.hardwareConcurrency || 4;
-        const mem = navigator.deviceMemory || 4; // GB (not supported everywhere)
-        if (cores <= 4 || mem <= 4) root.classList.add('perf-fast');
-    } catch (_) { /* ignore */ }
-})();
+    // 3. Setup Interactions
+    setupScrollSpy();
+    setupSmoothScroll();
+    setupScrollReveal(); 
+    setupHeroParallax();
+});
 
-/* Touch detection (for mobile-specific hover simplifications) */
-(function touchDetect() {
+/* --- 1. Utils --- */
+function setupTouchDetect() {
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
         document.documentElement.classList.add('touch');
     }
-})();
-
-function setupThemeButton() {
-    const SUN_SVG = `<svg viewBox='0 0 24 24' aria-hidden='true'><circle cx='12' cy='12' r='5'/><g stroke-width='1.5'><line x1='12' y1='2' x2='12' y2='5'/><line x1='12' y1='19' x2='12' y2='22'/><line x1='4.22' y1='4.22' x2='6.34' y2='6.34'/><line x1='17.66' y1='17.66' x2='19.78' y2='19.78'/><line x1='2' y1='12' x2='5' y2='12'/><line x1='19' y1='12' x2='22' y2='12'/><line x1='4.22' y1='19.78' x2='6.34' y2='17.66'/><line x1='17.66' y1='6.34' x2='19.78' y2='4.22'/></g></svg>`;
-    const MOON_SVG = `<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M21 12.79A9 9 0 0 1 11.21 3 7.5 7.5 0 1 0 21 12.79z'/></svg>`;
-    const setIconMarkup = (btn, isLight) => {
-        const span = btn.querySelector('[data-theme-icon]');
-        if (!span) return;
-        span.classList.remove('swap');
-        span.innerHTML = isLight ? MOON_SVG : SUN_SVG; // show NEXT theme icon
-        // force reflow then add swap class for animation
-        void span.offsetWidth;
-        span.classList.add('swap');
-    };
-    document.addEventListener('click', (e) => {
-        const btn = e.target.closest('#theme-toggle');
-        if (!btn) return;
-        const root = document.documentElement;
-        // Begin fast theme transition: capture prior theme background via clone overlay
-        try {
-            const existing = document.getElementById('theme-transition-overlay');
-            if (existing) existing.remove();
-            const ov = document.createElement('div');
-            ov.id = 'theme-transition-overlay';
-            // Snapshot current body background (simpler than computed gradient clone) – browsers will paint with old vars until class flips
-            const cs = getComputedStyle(document.body);
-            ov.style.background = cs.backgroundImage ? cs.backgroundImage + ',' + cs.backgroundColor : cs.background || 'var(--bg)';
-            document.body.appendChild(ov);
-        } catch (_) { /* ignore */ }
-        root.classList.add('theme-switching');
-        const isLight = root.classList.toggle('light');
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-        btn.setAttribute('aria-pressed', String(isLight));
-        btn.setAttribute('aria-label', isLight ? 'Activate dark theme' : 'Activate light theme');
-        setIconMarkup(btn, isLight);
-        // Remove helper class shortly after transitions settle
-        setTimeout(() => { root.classList.remove('theme-switching'); }, 420);
-        // Clean overlay after fade
-        setTimeout(() => { const ov = document.getElementById('theme-transition-overlay'); ov && ov.remove(); }, 380);
-    });
-    document.addEventListener('DOMContentLoaded', () => {
-        const btn = document.getElementById('theme-toggle');
-        if (!btn) return;
-        const isLight = document.documentElement.classList.contains('light');
-        btn.setAttribute('aria-pressed', String(isLight));
-        btn.setAttribute('aria-label', isLight ? 'Activate dark theme' : 'Activate light theme');
-        setIconMarkup(btn, isLight);
-    });
-    // Handle pageshow (bfcache restore) and custom SPA swaps ensuring icon stays in sync
-    window.addEventListener('pageshow', () => {
-        const btn = document.getElementById('theme-toggle');
-        if (!btn) return;
-        const isLight = document.documentElement.classList.contains('light');
-        btn.setAttribute('aria-pressed', String(isLight));
-        btn.setAttribute('aria-label', isLight ? 'Activate dark theme' : 'Activate light theme');
-        setIconMarkup(btn, isLight);
-    });
 }
 
-/* Mobile nav: toggle open/closed, set aria-expanded, and basic focus mgmt */
-function setupMobileNav() {
-    const navToggle = document.getElementById("nav-toggle");
-    const panel = document.getElementById("nav-panel");
-    if (!navToggle || !panel) return;
-    // Create overlay once (for modern mobile drawer feel)
-    let overlay = document.getElementById('nav-overlay');
-    if (!overlay) {
-        overlay = document.createElement('div');
-        overlay.id = 'nav-overlay';
-        overlay.setAttribute('aria-hidden', 'true');
-        document.body.appendChild(overlay);
-    }
+/* --- Animation & Parallax --- */
 
-    const links = panel.querySelectorAll("a");
-
-    function openMenu() {
-        panel.classList.add("open");
-        document.body.classList.add('nav-open');
-        overlay.classList.add('show'); // purely visual now (no pointer events)
-        // Prepare for transition from 0 -> content height
-        panel.style.height = 'auto';
-        const target = panel.scrollHeight; // full height including padding
-        panel.style.height = '0px'; // reset to start state
-        requestAnimationFrame(() => {
-            panel.style.height = target + 'px';
-            panel.style.visibility = 'visible';
-        });
-        navToggle.setAttribute("aria-expanded", "true");
-        if (links.length) links[0].focus();
-    }
-    function closeMenu() {
-        // Animate back to 0
-        const current = panel.scrollHeight;
-        panel.style.height = current + 'px';
-        requestAnimationFrame(() => {
-            panel.style.height = '0px';
-        });
-        navToggle.setAttribute("aria-expanded", "false");
-        overlay.classList.remove('show');
-        document.body.classList.remove('nav-open');
-        navToggle.focus();
-    }
-    function toggleMenu() {
-        const open = navToggle.getAttribute("aria-expanded") === "true";
-        open ? closeMenu() : openMenu();
-    }
-
-    navToggle.addEventListener("click", toggleMenu);
-
-    // Close on Escape
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && navToggle.getAttribute("aria-expanded") === "true") {
-            closeMenu();
-        }
-    });
-
-    // Close when clicking a link (mobile)
-    panel.addEventListener("transitionend", (e) => {
-        if (e.propertyName !== 'height') return;
-        if (navToggle.getAttribute('aria-expanded') === 'true') {
-            // keep natural layout after opening
-            panel.style.height = 'auto';
-        } else if (panel.style.height === '0px') {
-            panel.classList.remove('open');
-        }
-    });
-
-    // Removed: link click, overlay click, and swipe-down close per request (only toggle closes menu)
-    // (Handlers intentionally omitted to restrict closing to nav toggle button.)
-
-    // Outside click close disabled as requested.
-
-    // Handle viewport resize: if leaving mobile breakpoint ensure menu is fully reset
-    let lastIsMobile = window.matchMedia('(max-width:780px)').matches;
-    window.addEventListener('resize', () => {
-        const isMobile = window.matchMedia('(max-width:780px)').matches;
-        if (!isMobile && lastIsMobile) {
-            // entering desktop: clear inline styles & classes
-            panel.classList.remove('open');
-            panel.style.height = '';
-            navToggle.setAttribute('aria-expanded', 'false');
-            overlay.classList.remove('show');
-            document.body.classList.remove('nav-open');
-        } else if (isMobile && !lastIsMobile) {
-            // entering mobile: ensure collapsed initial state
-            panel.classList.remove('open');
-            panel.style.height = '0px';
-            navToggle.setAttribute('aria-expanded', 'false');
-            overlay.classList.remove('show');
-            document.body.classList.remove('nav-open');
-        }
-        lastIsMobile = isMobile;
-    });
-}
-
-// Enhanced intersection observer with staggered reveal
-const io = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-            // Add slight staggered delay based on intersection batch index
-            entry.target.style.transitionDelay = `${i * 50}ms`;
-            entry.target.style.transform = "translateY(0)";
-            entry.target.style.opacity = "1";
-            io.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
-
-document.addEventListener("DOMContentLoaded", () => {
-    setupThemeButton();
-    // Run after header injected
-    setTimeout(setupMobileNav, 0);
-
-    // Apply initial state for scroll reveal
-    const revealElements = document.querySelectorAll(".card, .feature-card, .strength, .project-sheet, .timeline li, .hh-visual");
-    revealElements.forEach((el) => {
-        el.style.transform = "translateY(24px)";
-        el.style.opacity = "0";
-        el.style.transition = "transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s ease-out";
-        el.style.willChange = "transform, opacity";
-        io.observe(el);
-    });
-});
-
-
-/* === Anti-copy protections (requested) ==================================== */
-(function preventCopy() {
-    const root = document.documentElement;
-    root.classList.add('nocopy');
-    const block = (e) => e.preventDefault();
-    ['copy', 'cut', 'contextmenu', 'dragstart', 'selectstart'].forEach(ev => document.addEventListener(ev, block));
-    document.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && ['c', 'x', 's', 'p', 'u', 'a'].includes(e.key.toLowerCase())) {
-            e.preventDefault();
-        }
-    });
-    // Mark media as non-draggable/non-savable (basic deterrent, not foolproof)
-    const disableMedia = () => {
-        document.querySelectorAll('img, svg, picture, canvas, video').forEach(el => {
-            el.setAttribute('draggable', 'false');
-            el.setAttribute('aria-hidden', el.tagName !== 'IMG' ? 'true' : el.getAttribute('aria-hidden') || 'false');
-        });
-    };
-    document.addEventListener('DOMContentLoaded', disableMedia);
-    // For dynamically added (e.g., modal content)
-    const mo = new MutationObserver(disableMedia);
-    mo.observe(document.documentElement, { childList: true, subtree: true });
-})();
-
-/* === Ultra Fast Page Switching (SPA-lite) ============================= */
-(function fastNav() {
-    const support = 'pushState' in history && window.fetch;
-    if (!support) return; // fallback to normal nav
-    const origin = location.origin;
-    const isInternal = (url) => url.origin === origin;
-    async function load(url, add = true) {
-        try {
-            const res = await fetch(url, { credentials: 'same-origin' });
-            if (!res.ok) throw 0;
-            const html = await res.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const newMain = doc.querySelector('main');
-            const curMain = document.querySelector('main');
-            if (newMain && curMain) {
-                // Ensure ID uniqueness cleanup (avoid duplicate modal nodes etc.)
-                // Remove any modal existing in new page if already present to prevent duplication
-                const existingModal = document.getElementById('modal');
-                const incomingModal = newMain.querySelector('#modal');
-                if (existingModal && incomingModal) incomingModal.remove();
-                // Smooth cross-fade: stage new main atop old one
-                const parent = curMain.parentNode;
-                const outgoing = curMain;
-                outgoing.classList.add('fastnav-outgoing');
-                newMain.classList.add('fastnav-incoming');
-                // Insert new main immediately after outgoing so document flow height remains
-                outgoing.insertAdjacentElement('afterend', newMain);
-                // Placeholder to lock height during opacity transition (prevents footer jump)
-                const ph = document.createElement('div');
-                ph.style.height = outgoing.offsetHeight + 'px';
-                ph.style.pointerEvents = 'none';
-                ph.dataset.fastnavPh = 'true';
-                outgoing.replaceWith(ph);
-                document.documentElement.classList.add('fast-nav-switching');
-                // Update active nav link
-                document.querySelectorAll('#nav-panel a').forEach(a => {
-                    a.classList.toggle('active', a.getAttribute('href') && (new URL(a.href).pathname === new URL(url).pathname));
-                });
-                // Re-run per-page renderers (data already loaded)
-                renderFeatured();
-                renderProjects();
-                renderSkills();
-                renderCerts();
-                initContactForm && initContactForm();
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
-                // Trigger incoming reveal next frame
-                requestAnimationFrame(() => {
-                    newMain.classList.add('fastnav-show');
-                    let finished = false;
-                    const finalize = () => {
-                        if (finished) return; finished = true;
-                        newMain.removeEventListener('transitionend', finalize);
-                        // Remove placeholder and reveal new main
-                        const placeholder = document.querySelector('[data-fastnav-ph]');
-                        placeholder && placeholder.replaceWith(newMain);
-                        newMain.classList.remove('fastnav-incoming', 'fastnav-show');
-                        document.documentElement.classList.remove('fast-nav-switching');
-                        // Ensure restored flow
-                        newMain.style.position = '';
-                    };
-                    // Normal path: wait for transition end
-                    newMain.addEventListener('transitionend', finalize);
-                    // Early finalize for reduced motion or if styles disable transitions
-                    const prefersReduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-                    if (prefersReduce) setTimeout(finalize, 40);
-                    // General fallbacks (tigher for snappier feel)
-                    setTimeout(finalize, 280); // typical animation window
-                    setTimeout(finalize, 550); // absolute safety
-                });
-                if (add) history.pushState({ spa: true }, '', url);
-                // Safety: force recovery if something goes wrong with transition
-                setTimeout(() => {
-                    if (document.documentElement.classList.contains('fast-nav-switching')) return; // still switching
-                    const loneIncoming = document.querySelector('main.fastnav-incoming');
-                    if (loneIncoming) {
-                        loneIncoming.classList.remove('fastnav-incoming', 'fastnav-show');
-                    }
-                }, 520);
-            } else {
-                location.href = url; // fallback
+function setupScrollReveal() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target); // Trigger once
             }
-        } catch { location.href = url; }
-    }
-    document.addEventListener('click', (e) => {
-        const a = e.target.closest('a');
-        if (!a) return;
-        const href = a.getAttribute('href');
-        // Skip SPA interception for explicit download links or force-download marked links
-        if (a.hasAttribute('download') || a.dataset.forceDownload !== undefined) return;
-        if (!href || href.startsWith('#') || a.target === '_blank' || href.startsWith('mailto:') || href.startsWith('tel:')) return;
-        const url = new URL(href, location.href);
-        if (!isInternal(url)) return;
-        e.preventDefault();
-        load(url.href, true);
-    });
-    window.addEventListener('popstate', (e) => { if (e.state && e.state.spa) load(location.href, false); });
-})();
-
-/* === Force Download Helper (for browsers that might still open PDF) ======== */
-(function enableForceDownload() {
-    function forceDownload(url, filename) {
-        fetch(url).then(r => r.blob()).then(blob => {
-            const link = document.createElement('a');
-            const objectUrl = URL.createObjectURL(blob);
-            link.href = objectUrl;
-            link.download = filename || 'download';
-            document.body.appendChild(link);
-            link.click();
-            setTimeout(() => { URL.revokeObjectURL(objectUrl); link.remove(); }, 1000);
-        }).catch(() => { // fallback normal nav
-            window.location.href = url;
         });
-    }
-    document.addEventListener('click', (e) => {
-        const a = e.target.closest('a[data-force-download]');
-        if (!a) return;
-        // If browser honors native download attribute, let it proceed unless data-force-download="always"
-        if (a.dataset.forceDownload !== 'always' && 'download' in HTMLAnchorElement.prototype) {
-            return; // native behavior
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+    // Target elements to animate
+    const targets = document.querySelectorAll('.v3-section, .bento-item, .section-title, .v3-hero__text');
+    targets.forEach((el, i) => {
+        el.classList.add('reveal-on-scroll');
+        // Optional: Add staggering if they are siblings (like bento items)
+        if (el.classList.contains('bento-item')) {
+            el.style.transitionDelay = `${(i % 3) * 100}ms`;
         }
-        e.preventDefault();
-        const filename = a.getAttribute('download') || 'CV.pdf';
-        forceDownload(a.href, filename);
+        observer.observe(el);
     });
-})();
+}
+
+function setupHeroParallax() {
+    const hero = document.getElementById('hero');
+    const blobs = document.querySelectorAll('.blob');
+    if (!hero || blobs.length === 0) return;
+
+    hero.addEventListener('mousemove', (e) => {
+        const { clientX, clientY } = e;
+        const x = (clientX / window.innerWidth) - 0.5;
+        const y = (clientY / window.innerHeight) - 0.5;
+
+        blobs.forEach((blob, index) => {
+            const speed = index === 0 ? 20 : -30; // Different speeds/directions
+            blob.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+        });
+    });
+}
+
+/* --- 2. Rendering --- */
+
+function renderProjects() {
+    const grid = document.getElementById('projects-grid');
+    if (!grid || !PROFILE.projects) return;
+
+    grid.innerHTML = PROFILE.projects
+        .filter(p => p.slug !== 'portfolio')
+        .map((proj, index) => {
+        return `
+            <article class="bento-item card--project">
+                <div class="media">
+                     <img src="${proj.thumb}" alt="${proj.title}" loading="lazy" class="thumb">
+                </div>
+                <div class="project-body">
+                    <div class="tags">
+                        ${proj.tech.slice(0, 3).map(t => `<span class="badge">${t}</span>`).join('')}
+                    </div>
+                    <h3 class="project-title">${proj.title}</h3>
+                    <p class="project-desc">${proj.description}</p>
+                    <div class="project-actions">
+                        <a href="${proj.links.repo}" target="_blank" class="btn btn--sm btn--outline">
+                            <svg viewBox="0 0 24 24" fill="none" class="icon-sm" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                            Code
+                        </a>
+                    </div>
+                </div>
+            </article>
+        `;
+    }).join('');
+}
+
+function renderSkills() {
+    const marquee = document.getElementById('skills-marquee');
+    if (!marquee || !PROFILE.skills) return;
+
+    // Flatten all skills into one list for the marquee
+    // PROFILE.skills is an object { languages: [], web: [], ... }
+    const allSkills = Object.values(PROFILE.skills).flat();
+    
+    // Duplicate for infinite scroll smoothness
+    const skillsHTML = allSkills.map(skill => `
+        <div class="mq-item">
+            <span class="v3-skill-text">${skill}</span>
+        </div>
+    `).join('');
+
+    marquee.innerHTML = skillsHTML + skillsHTML; // Duplicate
+}
+
+function renderEducation() {
+    const grid = document.getElementById('education-grid');
+    if (!grid || !PROFILE.education) return;
+
+    grid.innerHTML = PROFILE.education.map(edu => {
+        // Parse "program" to separate Degree from Institute if possible, or just display as is
+        // Format: "MCA – Jamia Millia Islamia"
+        const parts = edu.program.split('–');
+        const degree = parts[0] ? parts[0].trim() : edu.program;
+        const place = parts[1] ? parts[1].trim() : '';
+        const scoreLabel = edu.cgpa ? 'CGPA' : 'Percentage';
+        const scoreValue = edu.cgpa || edu.perc;
+
+        return `
+            <div class="edu-card v3-glass">
+                <div class="edu-header">
+                    <span class="edu-year">${edu.year}</span>
+                    <span class="edu-score">${scoreLabel}: ${scoreValue}</span>
+                </div>
+                <h3 class="edu-degree">${degree}</h3>
+                <p class="edu-place">${place}</p>
+            </div>
+        `;
+    }).join('');
+}
+
+
+/* --- 3. Interactions --- */
+
+/* Active Nav Link on Scroll */
+function setupScrollSpy() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.v3-nav__link');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Remove active from all
+                navLinks.forEach(link => link.classList.remove('active'));
+                
+                // Add to current
+                const id = entry.target.getAttribute('id');
+                const activeLink = document.querySelector(`.v3-nav__link[href="#${id}"]`);
+                if (activeLink) activeLink.classList.add('active');
+            }
+        });
+    }, { threshold: 0.3 }); // 30% visible
+
+    sections.forEach(sec => observer.observe(sec));
+}
+
+/* Smooth Scroll for Anchors */
+function setupSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+        });
+    });
+}
