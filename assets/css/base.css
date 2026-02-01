@@ -1,4 +1,5 @@
 /* Base: CSS Reset + Variables + Typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 /* 1) Modern CSS reset (minimal) */
 *,
@@ -57,62 +58,45 @@ select {
 
 /* 2) Theme variables */
 :root {
-    /* Dark theme (default) – refreshing teal + soft violet accent pair */
-    --bg: #06141a;
-    /* deep cyan-slate */
-    --bg-soft: #0c2129;
-    /* nav / panels */
-    --card: #102a34;
-    /* card base slightly lighter */
-    --text: #f2f9fb;
-    /* near-white with hint of blue */
-    --muted: #87a2ad;
-    /* cool muted */
-    --accent: #34d3b4;
-    /* mint/teal glow */
-    --accent-2: #8b6ff8;
-    /* soft violet */
-    --border: #1b3943;
-    /* subtle cool border */
+    /* Dark theme: Midnight Navy + Electric Cyan + Neon Violet */
+    --bg: #0a192f;
+    --bg-soft: #112240;
+    --card: #112240;
+    --text: #e6f1ff;
+    --muted: #8892b0;
+    --accent: #64ffda;
+    --accent-2: #bd34fe;
+    --border: #233554;
     --error: #ef4444;
 
     --radius: 12px;
-    --shadow: 0 10px 28px -6px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+    --shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
 }
 
-/* Light theme – derived from dark palette (teal + violet) with airy neutrals */
+/* Light theme: Crisp Cloud + Slate + Vivid Blue */
 :root.light {
-    --bg: #f2f6f7;
-    /* cool airy base echoing dark cyan tint */
+    --bg: #f0f2f5; /* Soft Grey (Slate-100ish) */
     --bg-soft: #ffffff;
-    /* elevated surfaces */
     --card: #ffffff;
-    /* cards */
-    --text: #111a1f;
-    /* deep ink for strong contrast */
-    --muted: #56656c;
-    /* desaturated slate (from dark muted) */
-    --accent: #23c9b0;
-    /* lifted teal (lighter than dark #34d3b4) */
-    --accent-2: #755ef3;
-    /* softened violet (lighter than dark #8b6ff8) */
-    --border: #c7d5d9;
-    /* cool subtle border */
-    --error: #dc2626;
-    --shadow: 0 6px 28px -12px rgba(0, 0, 0, .14), 0 0 0 1px rgba(0, 0, 0, .05) inset;
+    --text: #0f172a;
+    --muted: #475569;
+    --accent: #0ea5e9;
+    --accent-2: #6366f1;
+    --border: #cbd5e1;
+    --error: #ef4444;
+    --shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04) inset;
 }
 
 /* 3) Base elements */
 body {
     position: relative;
-    background:
-        radial-gradient(at 18% 22%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 60%),
-        radial-gradient(at 82% 78%, color-mix(in srgb, var(--accent-2) 16%, transparent), transparent 65%),
-        linear-gradient(180deg, color-mix(in srgb, var(--bg) 88%, #000 12%) 0%, var(--bg) 55%),
-        var(--bg);
-    background-attachment: fixed;
+    background: var(--bg);
     color: var(--text);
-    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-image:
+        radial-gradient(at 15% 15%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 55%),
+        radial-gradient(at 85% 85%, color-mix(in srgb, var(--accent-2) 10%, transparent) 0%, transparent 60%);
+    background-attachment: fixed;
 }
 
 /* (Removed earlier duplicate light body background block to consolidate below) */
@@ -436,12 +420,12 @@ main.fastnav-incoming {
 
 html.fast-nav-switching main.fastnav-outgoing {
     opacity: 0;
-    transition: opacity .14s ease;
+    transition: opacity .12s ease;
 }
 
 html.fast-nav-switching main.fastnav-incoming {
-    transition: opacity .16s ease .04s, transform .18s ease;
-    transform: translateY(4px);
+    transition: opacity .18s ease .02s, transform .2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform: translateY(8px);
 }
 
 html.fast-nav-switching main.fastnav-incoming.fastnav-show {

@@ -180,26 +180,31 @@ function setupMobileNav() {
     });
 }
 
-// Simple intersection observer to animate cards
+// Enhanced intersection observer with staggered reveal
 const io = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
+    entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
+            // Add slight staggered delay based on intersection batch index
+            entry.target.style.transitionDelay = `${i * 50}ms`;
             entry.target.style.transform = "translateY(0)";
             entry.target.style.opacity = "1";
             io.unobserve(entry.target);
         }
     });
-}, { threshold: 0.2 });
+}, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
 
 document.addEventListener("DOMContentLoaded", () => {
     setupThemeButton();
     // Run after header injected
     setTimeout(setupMobileNav, 0);
 
-    document.querySelectorAll(".card").forEach((el) => {
-        el.style.transform = "translateY(8px)";
+    // Apply initial state for scroll reveal
+    const revealElements = document.querySelectorAll(".card, .feature-card, .strength, .project-sheet, .timeline li, .hh-visual");
+    revealElements.forEach((el) => {
+        el.style.transform = "translateY(24px)";
         el.style.opacity = "0";
-        el.style.transition = "transform 240ms ease, opacity 240ms ease";
+        el.style.transition = "transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s ease-out";
+        el.style.willChange = "transform, opacity";
         io.observe(el);
     });
 });
@@ -296,9 +301,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Early finalize for reduced motion or if styles disable transitions
                     const prefersReduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
                     if (prefersReduce) setTimeout(finalize, 40);
-                    // General fallbacks
-                    setTimeout(finalize, 300); // typical animation window
-                    setTimeout(finalize, 600); // absolute safety
+                    // General fallbacks (tigher for snappier feel)
+                    setTimeout(finalize, 280); // typical animation window
+                    setTimeout(finalize, 550); // absolute safety
                 });
                 if (add) history.pushState({ spa: true }, '', url);
                 // Safety: force recovery if something goes wrong with transition

@@ -36,10 +36,10 @@
     position: relative;
     overflow: hidden;
     padding: 0.95rem 0.95rem 1.15rem;
-    background: linear-gradient(155deg, color-mix(in srgb, var(--card) 96%, transparent) 0%, color-mix(in srgb, var(--bg-soft) 98%, transparent) 70%);
-    border: 1px solid color-mix(in srgb, var(--border) 88%, var(--accent) 6%);
-    backdrop-filter: saturate(150%) blur(2.2px);
-    -webkit-backdrop-filter: saturate(150%) blur(2.2px);
+    background: linear-gradient(155deg, color-mix(in srgb, var(--card) 90%, transparent) 0%, color-mix(in srgb, var(--bg-soft) 92%, transparent) 100%);
+    border: 1px solid color-mix(in srgb, var(--border) 80%, var(--accent) 15%);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
     transition: transform .55s ease, box-shadow .6s ease, border-color .5s ease, background .6s ease;
     display: flex;
     flex-direction: column;
@@ -102,8 +102,10 @@
     flex-direction: column;
     gap: 1.35rem;
     background:
-        linear-gradient(150deg, color-mix(in srgb, var(--bg-soft) 98%, transparent) 0%, color-mix(in srgb, var(--bg) 99%, transparent) 70%);
-    box-shadow: 0 14px 40px -16px rgba(0, 0, 0, .65), 0 0 0 1px rgba(255, 255, 255, .05) inset, 0 0 0 6px rgba(255, 255, 255, .012) inset;
+        linear-gradient(150deg, color-mix(in srgb, var(--bg-soft) 95%, transparent) 0%, color-mix(in srgb, var(--bg) 98%, transparent) 70%);
+    box-shadow: 0 24px 60px -12px rgba(0, 0, 0, .75), 0 0 0 1px rgba(255, 255, 255, .08) inset, 0 0 0 1px rgba(255, 255, 255, .02) inset;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overflow: hidden;

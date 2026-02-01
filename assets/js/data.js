@@ -35,7 +35,7 @@ const PROFILE = {
                 "MERN-based SaaS platform for conducting structured technical interviews with real-time coding and analytics.",
             tech: ["React.js", "Node.js", "Express.js", "MongoDB"],
             links: { repo: "#", live: "#" },
-            thumb: "assets/img/valexia-thumb.png",
+            thumb: "assets/img/valexia-new.png",
             details:
                 "A comprehensive platform facilitating real-time coding interviews, video calls, collaboration tools, and anti-cheat mechanisms.",
             features: [
@@ -73,7 +73,7 @@ const PROFILE = {
                 "Backend system for security policies, vulnerability tracking, and compliance management.",
             tech: ["Python", "MySQL"],
             links: { repo: "#", live: "#" },
-            thumb: "assets/img/cyber-security-management-system-thumb.jpg",
+            thumb: "assets/img/cyguard-new.png",
             details:
                 "A backend solution designed to manage an organization's security posture through policy enforcement and vulnerability tracking.",
             features: [
