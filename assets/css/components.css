@@ -18,8 +18,7 @@
     position: relative;
     border-radius: 16px;
     border: 1px solid var(--border);
-    /* Increased height by ~5%: 16/9 -> 16/9.45 (smaller ratio value => taller) */
-    aspect-ratio: 16 / 9.45;
+    aspect-ratio: 16 / 9;
     object-fit: cover;
     width: 100%;
     /* increased width by 2% */
@@ -27,6 +26,7 @@
     /* no horizontal overflow needed */
     transition: transform .85s cubic-bezier(.25, .8, .25, 1), filter .85s ease, box-shadow .6s ease;
     will-change: transform, filter;
+    background-color: var(--card); /* Fix for transparent PNGs */
 }
 
 /* Enhanced project card styling */
@@ -43,6 +43,7 @@
     transition: transform .55s ease, box-shadow .6s ease, border-color .5s ease, background .6s ease;
     display: flex;
     flex-direction: column;
+    height: 100%; /* Ensure equal height in grid */
 }
 
 .card--project::before {

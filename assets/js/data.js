@@ -8,82 +8,99 @@ const PROFILE = {
     phone: "+91 9161596155",
     location: "Delhi, India",
     summary:
-        "Motivated CS student with strong problem-solving in DSA, Python, and Java. Skilled in full stack web development and currently upskilling in MERN.",
+        "Motivated Computer Science student with strong problem-solving skills in Data Structures & Algorithms (DSA), Python, and Java. Skilled in full-stack web development and currently upskilling in the MERN stack. Passionate about building scalable, user-focused applications and contributing to collaborative development teams.",
     links: {
         github: "https://github.com/mdsddm",
         linkedin: "https://www.linkedin.com/in/mohd-saddam-0a9560183/"
     },
     education: [
-        { program: "MCA – Jamia Millia Islamia", cgpa: "8.665", year: "Expected Year" },
-        { program: "BCA – SSDC Kanpur, CSJMU", perc: "73.75%", year: "2020" },
-        { program: "Senior Secondary (XII) – SGVP Inter College, UP Board", perc: "84%", year: "2017" },
-        { program: "Secondary (X) – SGVP Inter College, UP Board", perc: "82%", year: "2015" }
+        { program: "MCA – Jamia Millia Islamia", cgpa: "8.51", year: "Expected 2026" },
+        { program: "BCA – SSDC Kanpur (CSJMU)", perc: "73.75%", year: "2020" },
+        { program: "Senior Secondary (XII) – SGVP Inter College (UP Board)", perc: "84%", year: "2017" },
+        { program: "Secondary (X) – SGVP Inter College (UP Board)", perc: "82%", year: "2015" }
     ],
     skills: {
         languages: ["Python", "Java", "C", "C++"],
-        web: ["HTML", "CSS", "JavaScript", "MERN (in progress)"],
-        tools: ["Git", "GitHub", "Tkinter", "DB Connectivity"],
-        databases: ["MySQL", "MongoDB"]
+        web: ["HTML", "CSS", "JavaScript", "Node.js", "Express.js", "React.js", "Mongoose", "Cloudinary", "Render"],
+        tools: ["Git", "GitHub", "VS Code"],
+        databases: ["MySQL", "MongoDB"],
+        core: ["DSA", "OOP", "SDLC", "Debugging", "Teamwork"]
     },
     projects: [
         {
-            title: "Cyber Security Management System",
-            slug: "cyber-security-management-system",
+            title: "Valexia — Data-Driven Technical Interview Platform",
+            slug: "valexia",
+            category: "fullstack",
+            description:
+                "MERN-based SaaS platform for conducting structured technical interviews with real-time coding and analytics.",
+            tech: ["React.js", "Node.js", "Express.js", "MongoDB"],
+            links: { repo: "#", live: "#" },
+            thumb: "assets/img/valexia-thumb.png",
+            details:
+                "A comprehensive platform facilitating real-time coding interviews, video calls, collaboration tools, and anti-cheat mechanisms.",
+            features: [
+                "Real-time coding & video interviews",
+                "Collaborative environment",
+                "Interview analytics & reporting",
+                "Anti-cheat mechanisms",
+                "SaaS architecture"
+            ]
+        },
+        {
+            title: "StayNest — Airbnb-Style Web App",
+            slug: "staynest",
+            category: "fullstack",
+            description:
+                "Full-stack accommodation platform with authentication, listings, image uploads, and reviews.",
+            tech: ["Node.js", "Express.js", "MongoDB Atlas", "Cloudinary", "Render"],
+            links: { repo: "#", live: "#" },
+            thumb: "assets/img/staynest-thumb.png",
+            details:
+                "A feature-rich booking platform allowing users to list properties, book stays, and leave reviews, deployed on Render.",
+            features: [
+                "User authentication & authorization",
+                "Property listings with image uploads (Cloudinary)",
+                "Review and rating system",
+                "Responsive design",
+                "Cloud database integration"
+            ]
+        },
+        {
+            title: "CyGuard — Cyber Security Management System",
+            slug: "cyguard",
             category: "security",
             description:
-                "Manage security policies, monitor vulnerabilities, ensure compliance, with access control and reporting dashboards.",
-            tech: ["Python", "MySQL", "Dashboards"],
+                "Backend system for security policies, vulnerability tracking, and compliance management.",
+            tech: ["Python", "MySQL"],
             links: { repo: "#", live: "#" },
             thumb: "assets/img/cyber-security-management-system-thumb.jpg",
             details:
-                "A role-based admin dashboard to create and assign security policies, log vulnerabilities, and generate compliance reports.",
+                "A backend solution designed to manage an organization's security posture through policy enforcement and vulnerability tracking.",
             features: [
-                "Role-based authentication & granular access control",
-                "Policy lifecycle management (create, review, retire)",
-                "Vulnerability registry with status tracking",
-                "Automated compliance summary & exportable reports",
-                "Visual KPI panels (open vulns, remediation rate, policy coverage)"
+                "Security policy management",
+                "Vulnerability tracking & logging",
+                "Compliance monitoring",
+                "Role-based access",
+                "Reporting modules"
             ]
         },
         {
-            title: "Tkinter Calculator",
-            slug: "tkinter-calculator",
-            category: "gui",
+            title: "Portfolio Website",
+            slug: "portfolio",
+            category: "web",
             description:
-                "A simple yet stylish desktop calculator supporting basic and scientific operations, built with Python and Tkinter.",
-            tech: ["Python", "Tkinter"],
-            links: {
-                repo: "https://github.com/mdsddm/tkinter-calculator",
-                live: "#"
-            },
-            thumb: "assets/img/tkinter-calculator-thumb.jpg",
+                "Responsive personal portfolio built using HTML, CSS, and JavaScript to showcase skills and projects.",
+            tech: ["HTML", "CSS", "JavaScript"],
+            links: { repo: "https://github.com/mdsddm/mdsddm.github.io", live: "https://mdsddm.github.io" },
+            thumb: "assets/img/profile.jpg",
             details:
-                "Scientific calculator supporting extended operations with a clean Tkinter UI.",
+                "The personal portfolio site you are currently viewing, designed for performance and accessibility.",
             features: [
-                "Basic + scientific ops (trig, log, power)",
-                "Theme toggle (light / dark variants)",
-                "Expression validation & safe eval wrapper",
-                "Keyboard shortcuts for faster input",
-                "Modular code for easy extension"
-            ]
-        },
-        {
-            title: "Python GUI Utility (Tkinter)",
-            slug: "python-gui-utility",
-            category: "gui",
-            description:
-                "Desktop GUI tool built with Tkinter to automate routine tasks and database interactions.",
-            tech: ["Python", "Tkinter", "SQLite/MySQL"],
-            links: { repo: "#", live: "#" },
-            thumb: "assets/img/python-gui-utility-thumb.jpg",
-            details:
-                "CRUD + data utilities desktop interface with clean separation of concerns.",
-            features: [
-                "Configurable DB layer (SQLite / MySQL)",
-                "Search + multi-field filtering",
-                "CSV / XLS export",
-                "Form validation & error toasts",
-                "MVC-ish structure for maintainability"
+                "Responsive layout",
+                "Dark/Light theme toggle",
+                "Project showcase",
+                "Dynamic content loading",
+                "SEO optimized"
             ]
         }
     ],
